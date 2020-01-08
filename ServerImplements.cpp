@@ -54,6 +54,7 @@ void MySerialServer::startThreadOPeration() {
         if (client_socket == -1) {
             throw "Error accepting client";
         }
+        //TODO add input and output stream
 //        clientHandler.handleClient();
     }
 }
