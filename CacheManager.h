@@ -14,4 +14,5 @@ public:
     virtual void insert(Key, Object) = 0;
     virtual ~CacheManager();
 };
+//TODO - create class FileCacheManger according the newMethod
 #endif //EX4_CACHEMANAGER_H

@@ -22,7 +22,7 @@ public:
     virtual void stop(){};
     virtual ~MySerialServer();
 private:
-    ClientHandler* clientHandler;
+    ClientHandler* clientHandler; //TODO - try to remove
     void startThread();
     std::thread acceptClient;
 };

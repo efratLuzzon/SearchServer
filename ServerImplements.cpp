@@ -61,7 +61,7 @@ void MySerialServer::startThreadOPeration() {
  * start thread of accepting clients
  * */
 void MySerialServer::startThread() {
-    acceptClient = std::thread(&MySerialServer::startThreadOPeration,this);
+    acceptClient = std::thread(&MySerialServer::startThreadOPeration,this); //TODO - here is the problem
 }
 /*
  * destractor - close the socket and the thread
