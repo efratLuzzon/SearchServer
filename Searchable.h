@@ -24,7 +24,6 @@ public:
     virtual vector<State<T>> getAllPossibleStates(State<T> n);
     double getweightOfEdge(State<T>,State<T>);
 };
-
 template<class T>
 State<T> Searchable<T>::getInitialState() {
     return _initialState;

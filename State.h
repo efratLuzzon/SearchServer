@@ -11,6 +11,9 @@ class State {
     T _state;
     double _cost;
     State<T> _comeFrom;
+    bool operator < (State<T>);
+    bool operator > (State<T>);
+
 public:
     State(T state);
     bool Equals(State<T> state);
@@ -31,5 +34,14 @@ template<class T>
 void State<T>::setComeFrom(State<T> state) {
     _comeFrom = state;
 }
+template<class T>
+bool State<T>::operator>(State<T> s) {
+    return (s.getCost() > _cost);
+}
+template<class T>
+bool State<T>::operator<(State<T> s) {
+    return (s.getCost() < _cost);
+}
+
 
 #endif //EX4_STATE_H

@@ -21,7 +21,7 @@ public:
     Searcher();
     int openListSize();
     void addToOpenList(State<T>);
-    void deleteFromOpenList(State<T>);
+    void update(State<T>);
     bool openListContain(State<T>);
     int getNumOfNodesEvaluated();
 };
@@ -46,8 +46,21 @@ bool Searcher<T>::openListContain(State<T> state) {
 }
 
 template<class T>
-void Searcher<T>::deleteFromOpenList(State<T> toDelete) {
-
+void Searcher<T>::update(State<T> toUpdate) {
+    if(openListContain(toUpdate)) {
+        vector<State<T>> temp;
+        State<T> s = openList.top();
+        while (!s.Equals(toUpdate)) {
+            openList.pop();
+            temp.push_back(s);
+            s = openList.top();
+        }
+        openList.pop();//pop toUpdate
+        openList.push(s); //add toUpdate again
+        for(State<T> state : temp) { //bring back all the states
+            openList.push(state);
+        }
+    }
 }
 
 #endif //EX4_ALGORITHM_H
