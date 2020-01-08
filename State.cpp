@@ -3,3 +3,9 @@
 //
 
 #include "State.h"
+double State::getCost() {
+    return _cost;
+}
+void State::setCost(double cost) {
+    _cost = cost;
+}
