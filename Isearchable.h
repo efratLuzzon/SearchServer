@@ -16,7 +16,7 @@ public:
     virtual State<T> getgoalState();
     virtual bool isGoal();
     virtual vector<State<T>> getAllPossibleStates(State<T> n);
-    virtual double getweightOfEdge(State<T>,State<T>);
+    virtual double getweightOfPath(State<T>, State<T>);
 
 };
 

@@ -6,24 +6,32 @@
 #define EX4_SEARCHABLE_H
 
 #include "Isearchable.h"
+#include "Graph.h"
 #include <vector>
 #include <unordered_map>
 
 using namespace std;
 template <class T>
 class Searchable : Isearchable<T> {
-    vector<State<T>> _vertexs;
-    unordered_map<pair<State<T>,State<T>>,double> _edges;
+    Graph<T> _graphStates;
     State<T> _initialState;
     State<T> _goalState;
 public:
-    Searchable();
+    Searchable(Graph<T> graphStates, State<T> initialState, State<T> goalState);
     virtual State<T> getInitialState();
     virtual State<T> getgoalState();
+    vector<State<T>> getAllPossibleStates(State<T> n);
+    double getweightOfPath(State<T> first, State<T> second);
     virtual bool isGoal(State<T>);
-    virtual vector<State<T>> getAllPossibleStates(State<T> n);
-    double getweightOfEdge(State<T>,State<T>);
+    void setVertexVisited(State<T> state);
+    bool vertexIsVisited(State<T>);
 };
+template<class T>
+Searchable<T>::Searchable(Graph<T> graphStates, State<T> initialState, State<T> goalState) {
+    _graphStates = graphStates;
+    _initialState = initialState;
+    _goalState = goalState;
+}
 template<class T>
 State<T> Searchable<T>::getInitialState() {
     return _initialState;
@@ -41,19 +49,22 @@ State<T> Searchable<T>::getgoalState() {
 
 template<class T>
 vector<State<T>> Searchable<T>::getAllPossibleStates(State<T> n) {
-    //TODO
+    _graphStates.getAllNeighbors(n);
 }
 
 template<class T>
-double Searchable<T>::getweightOfEdge(State<T> first, State<T> second) {
-    auto weight = _edges.find({first,second});
-    if(weight!= _edges.end()) {
-        return weight;
-    } else {
-        //TODO throw exeption out of map
-    }
-
+double Searchable<T>::getweightOfPath(State<T> first, State<T> second) {
+    _graphStates.getWeightOfEdge(first, second);
 }
 
+template<class T>
+void Searchable<T>::setVertexVisited(State<T> state) {
+    _graphStates.setVertexVisited(state);
+}
+
+template<class T>
+bool Searchable<T>::vertexIsVisited(State<T> state) {
+    return _graphStates.vertexIsVisited(state);
+}
 
 #endif //EX4_SEARCHABLE_H

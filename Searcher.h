@@ -24,6 +24,7 @@ public:
     void update(State<T>);
     bool openListContain(State<T>);
     int getNumOfNodesEvaluated();
+    bool openListIsEmpty();
 };
 
 template <class T>
@@ -62,5 +63,8 @@ void Searcher<T>::update(State<T> toUpdate) {
         }
     }
 }
-
+template<class T>
+bool Searcher<T>::openListIsEmpty() {
+    return openList.empty();
+}
 #endif //EX4_ALGORITHM_H

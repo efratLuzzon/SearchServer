@@ -21,7 +21,7 @@ Solution BestFirstSearch<T>::search(Isearchable<State<T>> searchable) {
     while (this->openListSize() > 0) {
         State<T> n = this->popOpenList();
         closed.push(n);
-        if(n.Equals(searchable.getgoalState())) {
+        if(searchable.isGoal(n)) {
             return backTrace();
         }
         vector<State<T>> succerssors = searchable.getAllPossibleStates(n);
@@ -62,14 +62,37 @@ template <class T>
 class DFS : Searcher<State<T>> {
 public:
     DFS();
-    virtual Solution search (Isearchable<T> searchable);
+    virtual Solution search (Isearchable<State<T>> searchable);
 };
+Solution DFS::search(Isearchable<State<T>> searchable) {
+    /*addToOpenList(searchable.getInitialState());
+    while(!openListIsEmpty()) {
+        State<T> n = popOpenList();
+        searchable.setValOfVertex(n, "Gray");
+        if (n.Equals(searchable.getgoalState())) {
+            return backTrace();
+        }
+        vector<State<T>> succerssors = searchable.getAllPossibleStates(n);
+        for (State<T> state : succerssors) {
+            if (searchable.getValOfVertex(state) == "") {
+                addToOpenList(state);
+            }
+        }
+        searchable.setValOfVertex(n, "Black");
+    }*/
+    //TODO change the string "balck" "gray" to boll (visit or not)
+}
+
 template <class T>
 class BFS : Searcher<State<T>> {
 public:
     BFS();
-    virtual Solution search (Isearchable<T> searchable);
+    virtual Solution search (Isearchable<State<T>>  searchable);
 };
+
+Solution BFS<T>::search(Isearchable<State<T>> searchable) {
+
+}
 template <class T>
 class HillClimbing : Searcher<State<T>> {
 public:
