@@ -6,8 +6,7 @@
 #define EX4_ISEARCHER_H
 
 #include "Isearchable.h"
-#include "Solution.h"
-template <class T>
+template <class T, class Solution>
 class Isearcher {
 public:
     virtual Solution search (Isearchable<State<T>> searchable);

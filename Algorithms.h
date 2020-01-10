@@ -5,19 +5,19 @@
 #ifndef EX4_ALGORITHMS_H
 #define EX4_ALGORITHMS_H
 
-#include "Searcher.h"
+#include "SerachAlgo/Searcher.h"
 using namespace std;
-template <class T>
-class BestFirstSearch : Searcher<State<T>> {
+template <class T, class Solution>
+class BestFirstSearch : Searcher<State<T>, Solution> {
 public:
     BestFirstSearch();
     virtual Solution search (Isearchable<State<T>> searchable);
     Solution backTrace();
 };
-template <class T>
-Solution BestFirstSearch<T>::search(Isearchable<State<T>> searchable) {
+template <class T, class Solution>
+Solution BestFirstSearch<T, Solution>::search(Isearchable<State<T>> searchable) {
     addToOpenList(searchable.getInitialState());
-    priority_queue<State<T>> closed = priority_queue<State<T>>();
+    priority_queue<State<T>, Solution> closed = priority_queue<State<T>, Solution>();
     while (this->openListSize() > 0) {
         State<T> n = this->popOpenList();
         closed.push(n);
@@ -53,18 +53,18 @@ Solution BestFirstSearch<T>::search(Isearchable<State<T>> searchable) {
     }
 }
 
-template<class T>
-Solution BestFirstSearch<T>::backTrace() {
+template<class T, class Solution>
+Solution BestFirstSearch<T, Solution>::backTrace() {
     return Solution();
 }
 
-template <class T>
-class DFS : Searcher<State<T>> {
+template <class T, class Solution>
+class DFS : Searcher<State<T>, Solution> {
 public:
     DFS();
     virtual Solution search (Isearchable<State<T>> searchable);
 };
-Solution DFS::search(Isearchable<State<T>> searchable) {
+template <class T, class Solution> Solution DFS<T,Solution>::search(Isearchable<State<T>> searchable) {
     /*addToOpenList(searchable.getInitialState());
     while(!openListIsEmpty()) {
         State<T> n = popOpenList();
@@ -83,27 +83,28 @@ Solution DFS::search(Isearchable<State<T>> searchable) {
     //TODO change the string "balck" "gray" to boll (visit or not)
 }
 
-template <class T>
-class BFS : Searcher<State<T>> {
+template <class T, class Solution>
+class BFS : Searcher<State<T>, Solution> {
 public:
     BFS();
     virtual Solution search (Isearchable<State<T>>  searchable);
 };
-
-Solution BFS<T>::search(Isearchable<State<T>> searchable) {
+template <class T, class Solution>
+Solution BFS <T, Solution>::search(Isearchable<State<T>> searchable) {
 
 }
-template <class T>
-class HillClimbing : Searcher<State<T>> {
+
+template <class T, class Solution>
+class HillClimbing : Searcher<State<T>, Solution> {
 public:
     HillClimbing();
-    virtual Solution search (Isearchable<T> searchable);
+    virtual void search (Isearchable<T> searchable);
 };
-template <class T>
-class AStar : Searcher<State<T>> {
+template <class T, class Solution>
+class AStar : Searcher<State<T>, Solution> {
 public:
     AStar();
-    virtual Solution search (Isearchable<T> searchable);
+    virtual void search (Isearchable<T> searchable);
 };
 
 

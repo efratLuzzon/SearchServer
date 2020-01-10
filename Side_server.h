@@ -11,21 +11,16 @@
 #include "ClientHandler.h"
 
 namespace side_server {
-    bool stop = false; // to close the thread server
+    static bool stop = false; // to close the thread server
     /*
      * Server interface.
      * */
     class Server {
     public:
         virtual void open(int port, ClientHandler&) = 0;
-        virtual void buildSocketServer(int port) = 0;
         virtual void startThreadOPeration() = 0;
         virtual void stop() = 0;
         virtual ~Server(){}
-
-    protected:
-        int socketfd;
-        sockaddr_in address;
     };
 
 

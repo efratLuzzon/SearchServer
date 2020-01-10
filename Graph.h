@@ -6,7 +6,9 @@
 #define EX4_GRAPH_H
 
 #include <unordered_map>
-
+#include "State.h"
+#include <vector>
+using namespace std;
 template<class T>
 class Graph {
     unordered_map<State<T>,bool>_vertexs;

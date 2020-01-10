@@ -16,19 +16,21 @@
  * ofstream: Stream class to write on files.
  * ifstream: Stream class to read from files
  * */
-class ClientHandler{
+class ClientHandler {
 public:
+//    ClientHandler(){}
     //get stream from client and write answer by server to client
-    virtual void handleClient(std::ifstream, std::ofstream) = 0;
-    virtual ~ClientHandler();
+    virtual void handleClient(int read, int write) = 0;
+    virtual ~ClientHandler(){}
 };
 /*
  * Class to test the code
  * */
-class MyTestClientHandler : ClientHandler {
-    Solver<class Problem, class Solution>* solver;
-    CacheManager<class Problem, class Solution>* cacheManager;
-    virtual void handleClient(std::ifstream, std::ofstream){};
+template <class Problem, class Solution>
+class MyTestClientHandler : public ClientHandler {
+    Solver<Problem, Solution>* solver;
+    CacheManager<Solution>* cacheManager;
+    virtual void handleClient(int read, int write){};
     virtual ~MyTestClientHandler(){};
 };
 #endif //EX4_CLIENTHANDLER_H

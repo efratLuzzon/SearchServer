@@ -42,6 +42,12 @@ template<class T>
 bool State<T>::operator<(State<T> s) {
     return (s.getCost() < _cost);
 }
+template <class T> double State<T>::getCost() {
+    return _cost;
+}
+template <class T> void State<T>::setCost(double cost) {
+    _cost = cost;
+}
 
 
 #endif //EX4_STATE_H
