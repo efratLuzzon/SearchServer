@@ -12,29 +12,58 @@
 using namespace std;
 
 template <class T, class Solution>
-class SearcherPriority : Isearcher<T, Solution> {
+class Searcher : Isearcher<T,Solution> {
+    priority_queue<State<T>> openList;
     int evaluatedNodes;
 protected:
-    SearcherPriority();
     State<T> popOpenList();
-    //IMPLEMENT HERE
-    virtual int getNumOfNodesEvaluated();
-    //IMPLEMENT IN CHILD
-    virtual Solution search (Isearchable<State<T>> searchable){};
-    virtual int openListSize(){};
-    virtual void addToOpenList(State<T>){}
-    virtual bool openListContain(State<T>){}
-    virtual  bool openListIsEmpty(){}
+public:
+    Searcher();
+    int openListSize();
+    void addToOpenList(State<T>);
+    void update(State<T>);
+    bool openListContain(State<T>);
+    int getNumOfNodesEvaluated();
+    bool openListIsEmpty();
 };
 
-template <class T, class Solution>
-SearcherPriority<T, Solution>::SearcherPriority() {
+template <class T>
+Searcher<T>::Searcher() {
     this->evaluatedNodes = 0;
-//    this->openList = new priority_queue<T>;
+    this->openList = new priority_queue<T>;
 }
-template <class T, class Solution>
-int SearcherPriority<T, Solution>::getNumOfNodesEvaluated() {
-    return evaluatedNodes;
+template <class T>
+void Searcher<T>::addToOpenList(State<T> state) {
+    openList.push(state);
+}
+template <class T>
+bool Searcher<T>::openListContain(State<T> state) {
+    for (State<T> s : openList) {
+        if(s.Equals(state)) {
+            return true;
+        }
+    }
+    return false;
 }
 
-#endif //EX4_ALGORITHM_H
+template<class T>
+void Searcher<T>::update(State<T> toUpdate) {
+    if(openListContain(toUpdate)) {
+        vector<State<T>> temp;
+        State<T> s = openList.top();
+        while (!s.Equals(toUpdate)) {
+            openList.pop();
+            temp.push_back(s);
+            s = openList.top();
+        }
+        openList.pop();//pop toUpdate
+        openList.push(s); //add toUpdate again
+        for(State<T> state : temp) { //bring back all the states
+            openList.push(state);
+        }
+    }
+}
+template<class T>
+bool Searcher<T>::openListIsEmpty() {
+    return openList.empty();
+}

@@ -18,19 +18,21 @@ private:
     State<T> _initialState;
     State<T> _goalState;
 public:
-    SearchableMatrix(State<T>& initialState, State<T>& goalState, vector<vector<State<T>>>& matrix);
+    SearchableMatrix(State<T> initialState, State<T> goalState, vector<vector<State<T>>> matrix);
     virtual State<T> getInitialState();
     virtual State<T> getgoalState();
     virtual vector<State<T>> getAllPossibleStates(State<T> n);
     virtual bool isGoal(State<T>);
     //virtual double getweightOfPath(State<T> first, State<T> second);
 };
+
 template<class T>
-SearchableMatrix<T>::SearchableMatrix(State<T>& initialState, State<T>& goalState, vector<vector<State<T>>>& matrix) {
+SearchableMatrix<T>::SearchableMatrix(State<T> initialState, State<T> goalState, vector<vector<State<T>>> matrix) {
     _matrix = matrix;
     _initialState = initialState;
     _goalState = goalState;
 }
+
 template<class T>
 State<T> SearchableMatrix<T>::getInitialState() {
     return _initialState;

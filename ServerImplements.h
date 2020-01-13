@@ -17,8 +17,7 @@
 /*
  * Implements of server - accept in loop one client each time.
  * */
-template <class T>
-class MySerialServer : side_server::Server<T>{
+class MySerialServer : side_server::Server{
 public:
     virtual void open(int port, ClientHandler&);
     virtual void startThreadOPeration();

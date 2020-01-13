@@ -15,7 +15,6 @@ namespace side_server {
     /*
      * Server interface.
      * */
-    template <class T>
     class Server {
     public:
         virtual void open(int port, ClientHandler&) = 0;

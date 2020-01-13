@@ -20,7 +20,6 @@
  * ofstream: Stream class to write on files.
  * ifstream: Stream class to read from files
  * */
-
 class ClientHandler {
 public:
 //    ClientHandler(){}
@@ -30,23 +29,24 @@ public:
 };
 
 
-template <class Problem, class SolutionE, class T>
+template <class Problem, class Solution, class T>
 class GetMatrix : public ClientHandler {
 private:
-    Solver<Problem, SolutionE>* solver;
-    CacheManager<SolutionE>* cacheManager;
+    Solver<Problem, Solution>* solver;
+    CacheManager<Solution>* cacheManager;
 public:
     virtual void handleClient(int soctefd, int clientSocket);
     virtual ~GetMatrix(){}
 };
 
-template <class Problem, class SolutionE, class T>
-void GetMatrix<Problem, SolutionE, T>::handleClient(int soctefd, int clientSocket) {
+template <class Problem, class Solution, class T>
+void GetMatrix<Problem, Solution, T>::handleClient(int soctefd, int clientSocket) {
     bool endRead = false;
     Problem problem;
     Problem weight;
-    vector<int> oneLineMatrix;
-    vector<vector<int>> linesMatrix;
+    vector<T> oneLineMatrix;
+    vector<vector
+    <T>> linesMatrix;
 
     while (!endRead) {
         char buf[1024] = {0};
@@ -81,10 +81,10 @@ void GetMatrix<Problem, SolutionE, T>::handleClient(int soctefd, int clientSocke
             }
         }
     }
-    vector<vector<State<int>>> matrix;
+    vector<vector<State<T>>> matrix;
     for(int i = 0; i < linesMatrix.size() -2 ; i++){
-        vector<int> line = linesMatrix[0];
-        vector<State<int>> lineState;
+        vector<T> line = linesMatrix[0];
+        vector<State<T>> lineState;
         for(int j = 0; j < line.size(); j++){
             State<int> s(i, j);
             s.setCost(line[j]);
@@ -95,7 +95,7 @@ void GetMatrix<Problem, SolutionE, T>::handleClient(int soctefd, int clientSocke
     int sizeMatrix = linesMatrix.size();
     State<T> initalizeState(linesMatrix[sizeMatrix - 2][0], linesMatrix[sizeMatrix - 2][1]);
     State<T> goalState(linesMatrix[sizeMatrix - 1][0], linesMatrix[sizeMatrix - 1][1]);
-    Isearchable<T>* matrixSearchable = new SearchableMatrix<int>(initalizeState, goalState, matrix);
+    Isearchable<T>* matrixSearchable = new SearchableMatrix<T>(initalizeState, goalState, matrix);
 
 
 }
@@ -104,7 +104,7 @@ void GetMatrix<Problem, SolutionE, T>::handleClient(int soctefd, int clientSocke
 /*
  * Class to test the code
  * */
-template <class Problem, class Solution>
+template <class Problem, class Solution, class T>
 class MyTestClientHandler : public ClientHandler {
 private:
     Solver<Problem, Solution>* solver;
@@ -117,8 +117,8 @@ public:
     virtual void handleClient(int soctefd, int clientSocket);
     virtual ~MyTestClientHandler(){}
 };
-template <class Problem, class Solution>
-void MyTestClientHandler<Problem, Solution>::handleClient(int soctefd, int clientSocket) {
+template <class Problem, class Solution, class T>
+void MyTestClientHandler<Problem, Solution, T>::handleClient(int soctefd, int clientSocket) {
     Problem problem;
 
     char buf[1024] = {0};

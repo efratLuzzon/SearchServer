@@ -14,7 +14,7 @@ private:
     double _cost;
     State<T>* _comeFrom;
 public:
-    State(T state1, T state2);
+    State(T &state1, T &state2);
     bool operator < (State<T>&) const;
     bool operator > (State<T>&) const;
     bool Equals(State<T>& state) const;
@@ -26,14 +26,14 @@ public:
 };
 
 template<class T>
-State<T>::State(T state1, T state2) {
+State<T>::State(T &state1, T &state2) {
     _stateX = state1;
     _stateY = state2;
 }
 template<class T>
 bool State<T>::Equals(State<T>& state) const{
     bool equal = false;
-    if((this->_stateX = state._stateX) && (_stateY = state._stateY)){
+    if((this->_stateX == state._stateX) && (_stateY == state._stateY)){
         equal = true;
     }
     return equal;
