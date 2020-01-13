@@ -49,6 +49,7 @@ State<T> SearchableMatrix<T>::getgoalState() {
 template<class T>
 vector<State<T>> SearchableMatrix<T>::getAllPossibleStates(State<T> state) {
     T x = state.getStateX();
+
     T y = state.getStateY();
     //T is always implement as int in this class
     vector<State<T>> adj;
