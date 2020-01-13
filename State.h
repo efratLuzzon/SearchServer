@@ -8,7 +8,8 @@
 
 template <class T>
 class State {
-    T _state;
+    T _stateX;
+    T _stateY;
     double _cost;
     State<T>* _comeFrom;
 public:
@@ -19,27 +20,28 @@ public:
 
 //    const  void operator() (State<T>) const {}
 
-    State(T state);
+    State(T& state1, T& state2);
     bool Equals(State<T> state) const;
-    void setComeFrom(State<T>);
+    void setComeFrom(State<T>& );
     double getCost();
     void setCost(double);
 };
 
 template<class T>
-State<T>::State(T state) {
-    _state = state;
+State<T>::State(T& state1, T& state2) {
+    _stateX = state1;
+    _stateY = state2;
 }
 template<class T>
 bool State<T>::Equals(State<T> state) const{
     bool equal = false;
-    if(this->_state == state._state) {
+    if((this->_stateX = state._stateX) && (_stateY = state._stateY)){
         equal = true;
     }
     return equal;
 }
 template<class T>
-void State<T>::setComeFrom(State<T> state) {
+void State<T>::setComeFrom(State<T> &state) {
     _comeFrom = state;
 }
 template<class T>

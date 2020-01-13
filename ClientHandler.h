@@ -74,6 +74,8 @@ void GetMatrix<Problem, Solution>::handleClient(int soctefd, int clientSocket) {
             }
         }
     }
+
+
     cout << "finish" << endl;
     Graph<int>* g = new Graph<int>;
     list<State<int>> nodes;
