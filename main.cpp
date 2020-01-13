@@ -7,13 +7,14 @@ using namespace std;
 
 int main() {
     MySerialServer serialServer;
-    ClientHandler* clientHandler = new MyTestClientHandler<string, string>();
+    ClientHandler* clientHandler = new GetMatrix <string, string>();
     try{
-        serialServer.open(5200, *clientHandler);
-    } catch( char* e){
+        serialServer.open(5601, *clientHandler);
+    } catch( const char* e){
         cout<<e<<endl;
     }
 
     std::cout << "Hello, World!" << std::endl;
+
     return 0;
 }

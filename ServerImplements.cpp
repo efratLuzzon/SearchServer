@@ -35,8 +35,8 @@ void MySerialServer::open(int port,ClientHandler& clientHandler) {
         std::cout<<"Server is now listening ..."<<std::endl;
     }
 
-
-    startThread();
+    startThreadOPeration();
+//    startThread();
 }
 
 
@@ -46,14 +46,23 @@ void MySerialServer::open(int port,ClientHandler& clientHandler) {
 void MySerialServer::startThreadOPeration() {
 
     while (!side_server::stop) {
+        struct timeval tv;
+        tv.tv_sec = 30;
+        setsockopt(this->socketfd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
 
         // accepting a client
-        int client_socket = accept(this->socketfd, (struct sockaddr *) &this->address,
-                                   (socklen_t *) &this->address); // Return -1
+        socklen_t len = sizeof(this->address); // max size of address structure
+        socklen_t tlen;
+        int client_socket = accept(this->socketfd,
+                                   (struct sockaddr *) &this->address,
+                                   &len); // supply valid max length
         if (client_socket == -1) {
             throw "Error accepting client";
         }
         clientHandler->handleClient(this->socketfd, client_socket);
+        cout<<"enter"<<endl;
+        close(client_socket);
+        //do operation
     }
 
 }

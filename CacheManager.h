@@ -10,6 +10,7 @@
 #include <string>
 #include <unordered_map>
 #include <fstream>
+#include <list>
 
 using namespace std;
 
@@ -23,109 +24,87 @@ using namespace std;
 template <class Object> class CacheManager {
 
 public:
-    virtual bool isObjectInCache(string) = 0;
     virtual Object get(string) = 0;
     virtual void insert(string, Object) = 0;
     virtual ~CacheManager(){}
 };
 
-template <class Object>
-class FileCacheManger :  CacheManager<Object>{
+template <class Solution>
+class FileCacheManger : public CacheManager<Solution>{
 private:
-    unordered_map<string, string> diskSolution; // problem, fileName
-    Object obtToClone;
-    bool first = true;
+    unordered_map<string, pair<Solution, list<string>::iterator>> _cacheMap;
+    int _capacity;
+    list<string> _lruKeys;
+
+
 
 public:
-    FileCacheManger(){}
-    Object getObtToClone() const;
-    void setObtToClone(Object obtToClone);
-    virtual bool isObjectInCache(string);
-    virtual Object get(string);
-    virtual void insert(string, Object);
-    void writeToFile(const Object& obj, string);
+    FileCacheManger(int capacity) : _capacity(capacity){}
+    virtual Solution get(string);
+    virtual void insert(string, Solution);
+    void use(typename unordered_map<string, pair<Solution, list<string>::iterator>>::iterator& it);
     virtual ~FileCacheManger(){}
-};
-template <class Object>
-bool FileCacheManger<Object>::isObjectInCache(string problem) {
-    bool objInDisk = false;
-    if(!(this->diskSolution.find(problem) == this->diskSolution.end())){
-        objInDisk = true;
+    template <class Predicate>
+    void foreach(Predicate p);
+    };
+
+template <class Solution>
+Solution FileCacheManger<Solution>::get(string key) {
+    auto item = _cacheMap.find(key);
+    //if item is in cache
+    if(item != _cacheMap.end()) {
+        use(item);
+        return item->second.first;
     }
-    return objInDisk;
+    fstream data;
+    data.open(key,ios::in|ios::binary);
+    if(!data.is_open()){
+        throw "key doesn't exist in map";
+    }
+    Solution obj;
+    data.read((char*)&obj,sizeof(obj));
+    data.close();
+    insert(key, obj);
+    return obj;
 }
-template <class Object>
-Object FileCacheManger<Object>::get(string problem) {
-    Object objToReturn;
-    fstream file_obj;
-    string fileName;
-    if(!(this->diskSolution.find(problem) == this->diskSolution.end())){
-        //find in chache
 
-        auto onePeaceInMap = this->diskSolution.find(problem);
-
-        //read object from file
-        file_obj.clear();
-        fileName = "../" +  onePeaceInMap->second + ".txt";
-        file_obj.open(fileName, ios::in | ios::binary);
-        if (!file_obj) {
-            throw "File failed in open";
+template <class Solution>
+void FileCacheManger<Solution>::insert(string key, Solution obj) {
+    fstream data;
+    auto item = _cacheMap.find(key);
+    //if key is exist
+    if(item != _cacheMap.end()){
+        use(item);
+        item->second.first = obj;
+    } else {
+        if((int)_cacheMap.size() == _capacity) {
+            _cacheMap.erase(_lruKeys.back());
+            _lruKeys.pop_back();
         }
-//        last  = chacheMap.find(keyList.front())->second.first;
-        file_obj.seekp(0, ios::beg);
-        file_obj.read((char *) &(objToReturn), sizeof(getObtToClone()));
-        file_obj.close();
-    } else {
-        throw "Error - Object not in Disk";
+        _lruKeys.push_front(key);
+        _cacheMap[key] = {obj, _lruKeys.begin()};
     }
-
-    return objToReturn;
+    data.open(key,ios::out|ios::binary);
+    if(!data.is_open()){
+        throw "open file error";
+    }
+    data.write((char*)&obj,sizeof(obj));
+    data.close();
 }
-template <class Object>
-void FileCacheManger<Object>::insert(string problem, Object obj) {
-    if(this->first){
-        this->obtToClone =  obj;
-        first = false;
-    }
-    //SEARCH IN CACHE
-    if(!(this->diskSolution.find(problem) == this->diskSolution.end())){
-        //FIND
-        auto onePeaceInMap = this->diskSolution.find(problem);
 
-        //return object from disk
-        //TODO
-        writeToFile(obj,onePeaceInMap->second);
-    } else {
-        string nameFile = problem + obj.class_name;
-        this->diskSolution[problem] = nameFile;
-//        this->diskSolution.insert(problem, a);
-        writeToFile(obj,nameFile);
+template <class Solution>
+void FileCacheManger<Solution>::use(typename unordered_map<string, pair<Solution, list<string>::iterator>>::iterator& it) {
+    _lruKeys.erase(it->second.second);
+    _lruKeys.push_front(it->first);
+    it->second.second = _lruKeys.begin();
+}
 
+
+template <class Solution>
+template <class Predicate>
+void FileCacheManger<Solution>::foreach(Predicate p) {
+    for(string key: _lruKeys) {
+        p(_cacheMap[key].first);
     }
 }
-
-template <class Object>
-void FileCacheManger<Object>::writeToFile(const Object& obj, string name){
-    string fileName = "../" + name +".txt";
-//    string fileName = "../" + index + "EX4"+obj.class_name+".txt";
-    fstream file_obj;
-    file_obj.open(fileName, ios::out | ios::binary );
-    if(!file_obj){
-        throw "File failed in open";
-    }
-    file_obj.seekp(0, ios::beg);
-    file_obj.write((char *)& (obj), sizeof(obj));
-    file_obj.close();
-}
-
-template<class Object>
-Object FileCacheManger<Object>::getObtToClone() const {
-    return obtToClone;
-}
-
-template<class Object>
-void FileCacheManger<Object>::setObtToClone(Object obtToClone) {
-    FileCacheManger::obtToClone = obtToClone;
-}
-
 #endif //EX4_CACHEMANAGER_H

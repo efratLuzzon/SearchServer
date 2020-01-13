@@ -9,11 +9,64 @@
 using namespace std;
 template <class T, class Solution>
 class BestFirstSearch : Searcher<State<T>, Solution> {
+private:
+    priority_queue<State<T>> openList;
 public:
     BestFirstSearch();
     virtual Solution search (Isearchable<State<T>> searchable);
     Solution backTrace();
+    virtual int openListSize();
+    virtual void addToOpenList(State<T> state);
+    virtual bool openListContain(State<T> state);
+    virtual bool openListIsEmpty();
+    virtual State<T> popOpenList();
+    void update(State<T> toUpdate);
 };
+template <class T, class Solution>
+int BestFirstSearch<T, Solution>::openListSize() {
+    return openList.size();
+}
+template <class T, class Solution>
+State<T> BestFirstSearch<T, Solution>::popOpenList() {
+    this->evaluatedNodes++;
+    auto top = openList.top();
+    openList.pop();
+    return top;
+}
+template <class T, class Solution>
+void BestFirstSearch<T, Solution>::update(State<T> toUpdate) {
+    if(openListContain(toUpdate)) {
+        vector<State<T>> temp;
+        State<T> s = openList.top();
+        while (!s.Equals(toUpdate)) {
+            openList.pop();
+            temp.push_back(s);
+            s = openList.top();
+        }
+        openList.pop();//pop toUpdate
+        openList.push(s); //add toUpdate again
+        for(State<T> state : temp) { //bring back all the states
+            openList.push(state);
+        }
+    }
+}
+template <class T, class Solution>
+bool BestFirstSearch<T, Solution>::openListIsEmpty() {
+    return openList.empty();
+}
+template <class T, class Solution>
+void BestFirstSearch<T, Solution>::addToOpenList(State<T> state) {
+    openList.push(state);
+}
+template <class T, class Solution>
+bool BestFirstSearch<T, Solution>::openListContain(State<T> state) {
+    for (State<T> s : openList) {
+        if(s.Equals(state)) {
+            return true;
+        }
+    }
+    return false;
+}
 template <class T, class Solution>
 Solution BestFirstSearch<T, Solution>::search(Isearchable<State<T>> searchable) {
     addToOpenList(searchable.getInitialState());
@@ -94,12 +147,7 @@ Solution BFS <T, Solution>::search(Isearchable<State<T>> searchable) {
 
 }
 
-template <class T, class Solution>
-class HillClimbing : Searcher<State<T>, Solution> {
-public:
-    HillClimbing();
-    virtual void search (Isearchable<T> searchable);
-};
+
 template <class T, class Solution>
 class AStar : Searcher<State<T>, Solution> {
 public:
