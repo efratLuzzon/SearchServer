@@ -9,7 +9,7 @@ int main() {
     MySerialServer serialServer;
     ClientHandler* clientHandler = new GetMatrix <string, string>();
     try{
-        serialServer.open(5601, *clientHandler);
+        serialServer.open(5600, *clientHandler);
     } catch( const char* e){
         cout<<e<<endl;
     }

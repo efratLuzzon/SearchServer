@@ -5,10 +5,10 @@
 #ifndef EX4_ALGORITHMS_H
 #define EX4_ALGORITHMS_H
 
-#include "SerachAlgo/Searcher.h"
+#include "SerachAlgo/SearcherPriority.h"
 using namespace std;
 template <class T, class Solution>
-class BestFirstSearch : Searcher<State<T>, Solution> {
+class BestFirstSearch : SearcherPriority<State<T>, Solution> {
 private:
     priority_queue<State<T>> openList;
 public:
@@ -112,7 +112,7 @@ Solution BestFirstSearch<T, Solution>::backTrace() {
 }
 
 template <class T, class Solution>
-class DFS : Searcher<State<T>, Solution> {
+class DFS : SearcherPriority<State<T>, Solution> {
 public:
     DFS();
     virtual Solution search (Isearchable<State<T>> searchable);
@@ -137,7 +137,7 @@ template <class T, class Solution> Solution DFS<T,Solution>::search(Isearchable<
 }
 
 template <class T, class Solution>
-class BFS : Searcher<State<T>, Solution> {
+class BFS : SearcherPriority<State<T>, Solution> {
 public:
     BFS();
     virtual Solution search (Isearchable<State<T>>  searchable);
@@ -149,7 +149,7 @@ Solution BFS <T, Solution>::search(Isearchable<State<T>> searchable) {
 
 
 template <class T, class Solution>
-class AStar : Searcher<State<T>, Solution> {
+class AStar : SearcherPriority<State<T>, Solution> {
 public:
     AStar();
     virtual void search (Isearchable<T> searchable);

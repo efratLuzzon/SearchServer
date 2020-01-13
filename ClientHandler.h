@@ -44,8 +44,8 @@ void GetMatrix<Problem, Solution>::handleClient(int soctefd, int clientSocket) {
     bool endRead = false;
     Problem problem;
     Problem weight;
-    vector<Problem> oneLineMatrix;
-    vector<vector<Problem>> linesMatrix;
+    vector<int> oneLineMatrix;
+    vector<vector<int>> linesMatrix;
 
     while (!endRead) {
         char buf[1024] = {0};
@@ -62,12 +62,18 @@ void GetMatrix<Problem, Solution>::handleClient(int soctefd, int clientSocket) {
             if (problem[i] == '@') {
                 break;
             } else if (problem[i] == '\n') {
-                oneLineMatrix.push_back(weight);
+                //convert string to double
+                std::string::size_type sz;
+                double cost = std::stod (weight,&sz);
+                oneLineMatrix.push_back(cost);
                 weight.clear();
                 linesMatrix.push_back(oneLineMatrix);
                 oneLineMatrix.clear();
             } else if (problem[i] == ',') {
-                oneLineMatrix.push_back(weight);
+                //convert string to double
+                std::string::size_type sz;
+                double cost = std::stod (weight,&sz);
+                oneLineMatrix.push_back(cost);
                 weight.clear();
             } else {
                 weight += problem[i];
@@ -75,12 +81,17 @@ void GetMatrix<Problem, Solution>::handleClient(int soctefd, int clientSocket) {
         }
     }
     vector<vector<State<int>>> matrix;
-    for(int i = 0; i < matrix.size(); i++){
-        vector<State<int>> line = matrix[0];
+    for(int i = 0; i < linesMatrix.size() -2 ; i++){
+        vector<int> line = linesMatrix[0];
+        vector<State<int>> lineState;
         for(int j = 0; j < line.size(); j++){
-
+            State<int> s(i, j);
+            s.setCost(line[j]);
+            lineState.push_back(s);
         }
+        matrix.push_back(lineState);
     }
+
 
 
 
