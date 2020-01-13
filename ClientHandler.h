@@ -74,44 +74,17 @@ void GetMatrix<Problem, Solution>::handleClient(int soctefd, int clientSocket) {
             }
         }
     }
+    vector<vector<State<int>>> matrix;
+    for(int i = 0; i < matrix.size(); i++){
+        vector<State<int>> line = matrix[0];
+        for(int j = 0; j < line.size(); j++){
 
-
-    cout << "finish" << endl;
-    Graph<int>* g = new Graph<int>;
-    list<State<int>> nodes;
-    int numNode = linesMatrix.front().size() - 2; //for goal and start
-    for(int k = 0; k < numNode; k++){
-          const State<int> node(k);
-//        g->setVertexs(node);
-//        nodes.push_back(node);
-    }
-
-
-
-    int i = 0, j = 0;
-    for (vector<Problem> oneLine: linesMatrix) {
-        for (Problem weigth : oneLine) {
-            if (i == 0) { //first time - create Node
-//                State<int> *node = new State<int>(j);
-//                j++;
-//                g.setVertexs(*node);
-////                g.
-            }
         }
-//        i++;
     }
 
 
 
-    //    try{
-//        Solution  solution = this->cacheManager->get(problem);
-//        cout<<"get: "<<solution<<endl;
-//    }
-//    catch (const char* e) {
-//        Solution  solution = solver->solve(problem);
-//        this->cacheManager->insert(problem, solution);
-//        cout<<"solve: "<<solution<<endl;
-//    }
+
 
 }
 

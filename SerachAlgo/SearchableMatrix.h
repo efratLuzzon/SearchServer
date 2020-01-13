@@ -14,9 +14,9 @@ using namespace std;
 template <class T>
 class SearchableMatrix : Isearchable<T> {
 private:
-    Graph<T> _graphStates;
-    State<T> _initialState;
-    State<T> _goalState;
+    vector<vector<State<T>>> _matrixStates;
+    State<T>* _initialState;
+    State<T>* _goalState;
 public:
     SearchableMatrix(Graph<T> graphStates, State<T> initialState, State<T> goalState);
     virtual State<T> getInitialState();
