@@ -14,12 +14,13 @@
 #include <unistd.h>
 #include <vector>
 #include <list>
-
+#include "SerachAlgo/SearchableMatrix.h"
 /*
  * This interface determines the type of conversation between the server and the client.
  * ofstream: Stream class to write on files.
  * ifstream: Stream class to read from files
  * */
+
 class ClientHandler {
 public:
 //    ClientHandler(){}
@@ -29,18 +30,18 @@ public:
 };
 
 
-template <class Problem, class Solution>
-class GetMatrix : public ClientHandler{
+template <class Problem, class SolutionE, class T>
+class GetMatrix : public ClientHandler {
 private:
-    Solver<Problem, Solution>* solver;
-    CacheManager<Solution>* cacheManager;
+    Solver<Problem, SolutionE>* solver;
+    CacheManager<SolutionE>* cacheManager;
 public:
     virtual void handleClient(int soctefd, int clientSocket);
     virtual ~GetMatrix(){}
 };
 
-template <class Problem, class Solution>
-void GetMatrix<Problem, Solution>::handleClient(int soctefd, int clientSocket) {
+template <class Problem, class SolutionE, class T>
+void GetMatrix<Problem, SolutionE, T>::handleClient(int soctefd, int clientSocket) {
     bool endRead = false;
     Problem problem;
     Problem weight;
@@ -91,16 +92,13 @@ void GetMatrix<Problem, Solution>::handleClient(int soctefd, int clientSocket) {
         }
         matrix.push_back(lineState);
     }
-
-
-
-
+    int sizeMatrix = linesMatrix.size();
+    State<T> initalizeState(linesMatrix[sizeMatrix - 2][0], linesMatrix[sizeMatrix - 2][1]);
+    State<T> goalState(linesMatrix[sizeMatrix - 1][0], linesMatrix[sizeMatrix - 1][1]);
+    Isearchable<T>* matrixSearchable = new SearchableMatrix<int>(initalizeState, goalState, matrix);
 
 
 }
-
-
-
 
 
 /*

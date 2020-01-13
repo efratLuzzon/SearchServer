@@ -6,8 +6,8 @@ using namespace std;
 
 
 int main() {
-    MySerialServer serialServer;
-    ClientHandler* clientHandler = new GetMatrix <string, string>();
+    MySerialServer<int> serialServer;
+    ClientHandler* clientHandler = new GetMatrix <string, string, int>();
     try{
         serialServer.open(5600, *clientHandler);
     } catch( const char* e){

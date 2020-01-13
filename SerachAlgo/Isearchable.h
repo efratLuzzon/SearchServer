@@ -14,9 +14,9 @@ class Isearchable {
 public:
     virtual State<T> getInitialState() = 0;
     virtual State<T> getgoalState() = 0;
-    virtual bool isGoal() = 0;
+    virtual bool isGoal(State<T>) = 0;
     virtual vector<State<T>> getAllPossibleStates(State<T> n) = 0;
-    virtual double getweightOfPath(State<T>, State<T>) = 0;
+//    virtual double getweightOfPath(State<T>, State<T>) = 0;
 
 };
 

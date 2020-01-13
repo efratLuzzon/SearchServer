@@ -6,7 +6,8 @@
 /*
  * open server that accept one client every time.
  * */
-void MySerialServer::open(int port,ClientHandler& clientHandler) {
+template <class T>
+void MySerialServer<T>::open(int port,ClientHandler& clientHandler) {
     this->clientHandler = &clientHandler;
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if (socketfd == -1) {
@@ -43,7 +44,8 @@ void MySerialServer::open(int port,ClientHandler& clientHandler) {
 /*
  * accept one client and do operation according clientHandler
  * */
-void MySerialServer::startThreadOPeration() {
+template <class T>
+void MySerialServer<T>::startThreadOPeration() {
 
     while (!side_server::stop) {
         struct timeval tv;
@@ -69,13 +71,15 @@ void MySerialServer::startThreadOPeration() {
 /*
  * start thread of accepting clients
  * */
-void MySerialServer::startThread() {
+template <class T>
+void MySerialServer<T>::startThread() {
     acceptClient = std::thread(&MySerialServer::startThreadOPeration,this);
 }
 /*
  * destractor - close the socket and the thread
  * */
-MySerialServer::~MySerialServer(){
+template <class T>
+MySerialServer<T>::~MySerialServer(){
     close(this->socketfd);
     if(acceptClient.joinable()){
         this->acceptClient.join();

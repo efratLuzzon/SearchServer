@@ -1,5 +1,5 @@
 //
-// Created by user on 08 ינואר 2020.
+// Created by user on 08  2020.
 //
 
 #ifndef EX4_SEARCHABLEMATRIX_H
@@ -12,13 +12,13 @@
 
 using namespace std;
 template <class T>
-class SearchableMatrix : Isearchable<T> {
+class SearchableMatrix : public Isearchable<T> {
 private:
-    vector<vector<T>> _matrix;
+    vector<vector<State<T>>> _matrix;
     State<T> _initialState;
     State<T> _goalState;
 public:
-    SearchableMatrix(State<T> initialState, State<T> goalState, vector<vector<T>>& matrix);
+    SearchableMatrix(State<T>& initialState, State<T>& goalState, vector<vector<State<T>>>& matrix);
     virtual State<T> getInitialState();
     virtual State<T> getgoalState();
     virtual vector<State<T>> getAllPossibleStates(State<T> n);
@@ -26,7 +26,7 @@ public:
     //virtual double getweightOfPath(State<T> first, State<T> second);
 };
 template<class T>
-SearchableMatrix<T>::SearchableMatrix(State<T> initialState, State<T> goalState, vector<vector<T>>& matrix) {
+SearchableMatrix<T>::SearchableMatrix(State<T>& initialState, State<T>& goalState, vector<vector<State<T>>>& matrix) {
     _matrix = matrix;
     _initialState = initialState;
     _goalState = goalState;
@@ -67,7 +67,7 @@ vector<State<T>> SearchableMatrix<T>::getAllPossibleStates(State<T> state) {
     return adj;
 }
 
-template<class T>
+//template<class T>
 //double SearchableMatrix<T>::getweightOfPath(State<T> first, State<T> second) {
 //    _graphStates.getWeightOfEdge(first, second);
 //}
