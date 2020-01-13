@@ -14,20 +14,20 @@ using namespace std;
 template <class T>
 class SearchableMatrix : Isearchable<T> {
 private:
-    vector<vector<State<T>>> _matrixStates;
-    State<T>* _initialState;
-    State<T>* _goalState;
+    vector<vector<T>> _matrix;
+    State<T> _initialState;
+    State<T> _goalState;
 public:
-    SearchableMatrix(Graph<T> graphStates, State<T> initialState, State<T> goalState);
+    SearchableMatrix(State<T> initialState, State<T> goalState, vector<vector<T>>& matrix);
     virtual State<T> getInitialState();
     virtual State<T> getgoalState();
     virtual vector<State<T>> getAllPossibleStates(State<T> n);
-    virtual double getweightOfPath(State<T> first, State<T> second);
     virtual bool isGoal(State<T>);
+    //virtual double getweightOfPath(State<T> first, State<T> second);
 };
 template<class T>
-SearchableMatrix<T>::SearchableMatrix(Graph<T> graphStates, State<T> initialState, State<T> goalState) {
-    _graphStates = graphStates;
+SearchableMatrix<T>::SearchableMatrix(State<T> initialState, State<T> goalState, vector<vector<T>>& matrix) {
+    _matrix = matrix;
     _initialState = initialState;
     _goalState = goalState;
 }
@@ -47,8 +47,24 @@ State<T> SearchableMatrix<T>::getgoalState() {
 }
 
 template<class T>
-vector<State<T>> SearchableMatrix<T>::getAllPossibleStates(State<T> n) {
-    _graphStates.getAllNeighbors(n);
+vector<State<T>> SearchableMatrix<T>::getAllPossibleStates(State<T> state) {
+    T x = state.getStateX();
+    T y = state.getStateY();
+    //T is always implement as int in this class
+    vector<State<T>> adj;
+    if(x > 0) {
+        adj.push_back(_matrix[x - 1][y]);
+    }
+    if(y > 0) {
+        adj.push_back(_matrix[x][y - 1]);
+    }
+    if( x < _matrix.size() - 1) {
+        adj.push_back(_matrix[x + 1][y]);
+    }
+    if( y < _matrix[0].size() - 1) {
+        adj.push_back(_matrix[x][y + 1]);
+    }
+    return adj;
 }
 
 template<class T>

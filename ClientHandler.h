@@ -119,16 +119,13 @@ void MyTestClientHandler<Problem, Solution>::handleClient(int soctefd, int clien
     }
      problem = buf;
      problem = problem.substr(0, problem.length() - 2);
-    try{
+    try {
         Solution  solution = this->cacheManager->get(problem);
         cout<<"get: "<<solution<<endl;
-    }
-    catch (const char* e) {
+    } catch (const char* e) {
         Solution  solution = solver->solve(problem);
         this->cacheManager->insert(problem, solution);
         cout<<"solve: "<<solution<<endl;
     }
-
-
 }
 #endif //EX4_CLIENTHANDLER_H

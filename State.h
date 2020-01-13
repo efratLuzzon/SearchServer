@@ -21,6 +21,8 @@ public:
     void setComeFrom(State<T>& );
     const double getCost();
     void setCost(double);
+    T getStateX();
+    T getStateY();
 };
 
 template<class T>
@@ -51,8 +53,18 @@ bool State<T>::operator<(State<T>& s) const {
 template <class T> const double State<T>::getCost() {
     return _cost;
 }
-template <class T> void State<T>::setCost(double cost) {
+template <class T>
+void State<T>::setCost(double cost) {
     _cost = cost;
 }
+template <class T>
+T State<T>::getStateX() {
+    return _stateX;
+}
+template <class T>
+T State<T>::getStateY() {
+    return _stateY;
+}
+
 
 #endif //EX4_STATE_H
