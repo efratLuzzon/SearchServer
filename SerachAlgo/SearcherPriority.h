@@ -1,7 +1,7 @@
 //
 // Created by user on 08/01/2020.
 //
-
+#pragma once
 #ifndef EX4_ALGORITHM_H
 #define EX4_ALGORITHM_H
 
@@ -12,7 +12,7 @@
 using namespace std;
 
 template <class T, class Solution>
-class Searcher : Isearcher<T,Solution> {
+class Searcher : public Isearcher<T,Solution> {
     priority_queue<State<T>> openList;
     int evaluatedNodes;
 protected:
@@ -27,17 +27,17 @@ public:
     bool openListIsEmpty();
 };
 
-template <class T>
-Searcher<T>::Searcher() {
+template <class T,class Solution>
+Searcher<T, Solution>::Searcher() {
     this->evaluatedNodes = 0;
     this->openList = new priority_queue<T>;
 }
-template <class T>
-void Searcher<T>::addToOpenList(State<T> state) {
+template <class T, class Solution>
+void Searcher<T, Solution>::addToOpenList(State<T> state) {
     openList.push(state);
 }
-template <class T>
-bool Searcher<T>::openListContain(State<T> state) {
+template <class T, class Solution>
+bool Searcher<T, Solution>::openListContain(State<T> state) {
     for (State<T> s : openList) {
         if(s.Equals(state)) {
             return true;
@@ -46,8 +46,8 @@ bool Searcher<T>::openListContain(State<T> state) {
     return false;
 }
 
-template<class T>
-void Searcher<T>::update(State<T> toUpdate) {
+template<class T, class Solution>
+void Searcher<T, Solution>::update(State<T> toUpdate) {
     if(openListContain(toUpdate)) {
         vector<State<T>> temp;
         State<T> s = openList.top();
@@ -63,7 +63,9 @@ void Searcher<T>::update(State<T> toUpdate) {
         }
     }
 }
-template<class T>
-bool Searcher<T>::openListIsEmpty() {
+template<class T, class Solution>
+bool Searcher<T, Solution>::openListIsEmpty() {
     return openList.empty();
 }
+
+#endif

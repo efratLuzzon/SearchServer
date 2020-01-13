@@ -9,7 +9,7 @@
 template <class T, class Solution>
 class Isearcher {
 public:
-    virtual Solution search (Isearchable<State<T>> searchable);
+    virtual Solution search (Isearchable<State<T>>* searchable);
     virtual int getNumOfNodesEvaluated();
 };
 #endif //EX4_ISEARCHER_H

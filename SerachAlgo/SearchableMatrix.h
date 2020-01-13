@@ -15,10 +15,10 @@ template <class T>
 class SearchableMatrix : public Isearchable<T> {
 private:
     vector<vector<State<T>>> _matrix;
-    State<T> _initialState;
-    State<T> _goalState;
+    State<T>* _initialState;
+    State<T>* _goalState;
 public:
-    SearchableMatrix(State<T> initialState, State<T> goalState, vector<vector<State<T>>> matrix);
+    SearchableMatrix(State<T>* initialState, State<T>* goalState, vector<vector<State<T>>> matrix);
     virtual State<T> getInitialState();
     virtual State<T> getgoalState();
     virtual vector<State<T>> getAllPossibleStates(State<T> n);
@@ -27,7 +27,7 @@ public:
 };
 
 template<class T>
-SearchableMatrix<T>::SearchableMatrix(State<T> initialState, State<T> goalState, vector<vector<State<T>>> matrix) {
+SearchableMatrix<T>::SearchableMatrix(State<T> *initialState, State<T>* goalState, vector<vector<State<T>>> matrix) {
     _matrix = matrix;
     _initialState = initialState;
     _goalState = goalState;
@@ -35,17 +35,17 @@ SearchableMatrix<T>::SearchableMatrix(State<T> initialState, State<T> goalState,
 
 template<class T>
 State<T> SearchableMatrix<T>::getInitialState() {
-    return _initialState;
+    return *_initialState;
 }
 
 template<class T>
 bool SearchableMatrix<T>::isGoal(State<T> state) {
-    return state.Equals(_goalState);
+    return state.Equals(*_goalState);
 }
 
 template<class T>
 State<T> SearchableMatrix<T>::getgoalState() {
-    return _goalState;
+    return *_goalState;
 }
 
 template<class T>

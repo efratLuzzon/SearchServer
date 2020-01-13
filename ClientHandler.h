@@ -32,18 +32,24 @@ public:
 template <class Problem, class Solution, class T>
 class GetMatrix : public ClientHandler {
 private:
-    Solver<Problem, Solution>* solver;
-    CacheManager<Solution>* cacheManager;
+    Solver<Problem, Solution>* _solver;
+    CacheManager<Solution>* _cacheManager;
 public:
+    GetMatrix(Solver<Problem, Solution>*, CacheManager<Solution>*);
     virtual void handleClient(int soctefd, int clientSocket);
     virtual ~GetMatrix(){}
 };
+template <class Problem, class Solution, class T>
+GetMatrix<Problem, Solution, T>::GetMatrix(Solver<Problem, Solution>* solver, CacheManager<Solution>* cacheManager) {
+    _solver = solver;
+    _cacheManager = cacheManager;
+}
 
 template <class Problem, class Solution, class T>
 void GetMatrix<Problem, Solution, T>::handleClient(int soctefd, int clientSocket) {
     bool endRead = false;
-    Problem problem;
-    Problem weight;
+    string problem;
+    string weight;
     vector<T> oneLineMatrix;
     vector<vector
     <T>> linesMatrix;
@@ -95,7 +101,8 @@ void GetMatrix<Problem, Solution, T>::handleClient(int soctefd, int clientSocket
     int sizeMatrix = linesMatrix.size();
     State<T> initalizeState(linesMatrix[sizeMatrix - 2][0], linesMatrix[sizeMatrix - 2][1]);
     State<T> goalState(linesMatrix[sizeMatrix - 1][0], linesMatrix[sizeMatrix - 1][1]);
-    Isearchable<T>* matrixSearchable = new SearchableMatrix<T>(initalizeState, goalState, matrix);
+    Isearchable<T>* matrixSearchable = new SearchableMatrix<T>(&initalizeState, &goalState, matrix);
+    cout<<"end"<<endl;
 
 
 }

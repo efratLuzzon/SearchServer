@@ -29,6 +29,8 @@ template<class T>
 State<T>::State(T &state1, T &state2) {
     _stateX = state1;
     _stateY = state2;
+    _cost = 0;
+    _comeFrom = nullptr;
 }
 template<class T>
 bool State<T>::Equals(State<T>& state) const{
