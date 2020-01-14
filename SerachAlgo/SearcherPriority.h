@@ -28,9 +28,14 @@ public:
 };
 
 template <class T,class Solution>
+int Searcher<T,Solution>::getNumOfNodesEvaluated() {
+
+}
+
+template <class T,class Solution>
 Searcher<T, Solution>::Searcher() {
-    this->evaluatedNodes = 0;
-    this->openList = new priority_queue<T>;
+    //this->evaluatedNodes = 0;
+    //this->openList = new priority_queue<T>;
 }
 template <class T, class Solution>
 void Searcher<T, Solution>::addToOpenList(State<T> state) {

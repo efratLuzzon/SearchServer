@@ -13,10 +13,13 @@ public:
     BestFirstSearch();
     virtual Solution search (Isearchable<State<T>>* searchable);
     Solution backTrace();
+    ~BestFirstSearch();
 };
 template <class T, class Solution>
+BestFirstSearch<T,Solution>::BestFirstSearch() {}
+template <class T, class Solution>
 Solution BestFirstSearch<T,Solution>::search(Isearchable<State<T>>* searchable) {
-    addToOpenList(searchable->getInitialState());
+    /*this->addToOpenList(searchable->getInitialState());
     priority_queue<State<T>> closed = priority_queue<State<T>>();
     while (this->openListSize() > 0) {
         State<T> n = this->popOpenList();
@@ -44,13 +47,13 @@ Solution BestFirstSearch<T,Solution>::search(Isearchable<State<T>>* searchable) 
                     if(!this->openListContain(state)) {
                         this->addToOpenList(state);
                     } else {
-                        this->deleteFromOpenList(state);
+                        //this->deleteFromOpenList(state); //TODO update
                         this->addToOpenList(state);
                     }
                 }
             }
         }
-    }
+    }*/
 }
 template <class T, class Solution>
 Solution BestFirstSearch<T,Solution>::backTrace() {

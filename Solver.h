@@ -6,6 +6,7 @@
 #define EX4_SOLVER_H
 
 #include "SerachAlgo/Isearcher.h"
+#include "SerachAlgo/SearchableMatrix.h"
 #include <string>
 using namespace std;
 template<class Problem, class Solution> class Solver {
@@ -14,22 +15,23 @@ public:
     virtual Solution solve(Problem*) = 0;
     virtual ~Solver(){}
 };
-template<class Problem, class Solution, class T>
-class ObjectAdapterSolver : public Solver<Problem, Solution> {
+
+template<class T, class Solution>
+class ObjectAdapterSolver : public Solver<SearchableMatrix<State<T>>, Solution> {
 private:
     Isearcher<T, Solution>* searcher;
 public:
     ObjectAdapterSolver(Isearcher<T, Solution>*);
-    virtual Solution solve(Problem*);
+    virtual Solution solve(SearchableMatrix<State<T>>*);
     virtual ~ObjectAdapterSolver(){}
 };
-template<class Problem, class Solution, class T>
-ObjectAdapterSolver<Problem, Solution,T>::ObjectAdapterSolver(Isearcher<T, Solution>* search) {
+template<class T, class Solution>
+ObjectAdapterSolver<T, Solution>::ObjectAdapterSolver(Isearcher<T, Solution>* search) {
     searcher = search;
 }
-template<class Problem, class Solution, class T>
-Solution ObjectAdapterSolver<Problem, Solution,T>::solve(Problem* problem) {
-    Solution solution = searcher->search(*problem);
+template<class T, class Solution>
+Solution ObjectAdapterSolver<T, Solution>::solve(SearchableMatrix<State<T>>* problem) {
+    Solution solution = searcher->search(problem);
     return solution;
 }
 
