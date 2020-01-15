@@ -37,6 +37,7 @@ vector<State<T>*> BFS<T>::search(Isearchable<T>* searchable) {
         visited_vertices.insert(current_vertex);
 //        std::cout << "Looking at " << current_vertex << std::endl;
         vector<State<T>*> adj = searchable->getAllPossibleStates(current_vertex);
+
         for (int j = 0; j < adj.size(); j++) {
             //if (*adj[j]) {
                 if ((*goal).Equals(adj[j])) {
