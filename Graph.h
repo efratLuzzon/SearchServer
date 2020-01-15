@@ -4,7 +4,7 @@
 #pragma once
 #ifndef EX4_GRAPH_H
 #define EX4_GRAPH_H
-
+/*
 #include <unordered_map>
 #include "State.h"
 #include <vector>
@@ -76,5 +76,5 @@ void Graph<T>::setVertexs(State<T>  node) {
 template<class T>
 void Graph<T>::setEdges(State<T>&  first, State<T>&  second, double cost){
     _edges->insert[{first, second}] = cost;
-}
+}*/
 #endif //EX4_GRAPH_H

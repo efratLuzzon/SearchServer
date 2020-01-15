@@ -2,27 +2,28 @@
 #include <string>
 #include "ServerImplements.h"
 #include "BestFirstSearch.h"
-#include "Solver.h"
+#include "Solver/Solver.h"
+#include "Algo/BFS.h"
+#include "clientHandler/MatrixClientHandler.h"
+#include "Solver/OAdapter.h"
+#include "CacheManager/FileCacheManager.h"
+
 using namespace std;
 
 
 
 int main() {
     MySerialServer serialServer;
-//    BestFirstSearch<int, string> searcher;
-//    ObjectAdapterSolver<SearchableMatrix<int>, string, int>(searcher);
-//    GetMatrix<SearchableMatrix<int>(solve, fileCacheManager);
-    Isearcher<int, string>* searcher = new BestFirstSearch<int, string>();
-    Solver<SearchableMatrix<State<int>>, string>* solve = new ObjectAdapterSolver<int, string>(searcher);
-    CacheManager<string>* fileCacheManger = new FileCacheManger<string>(5);
-////    GetMatrix<string, string, int> g = GetMatrix<string, string, int>();
-    ClientHandler* clientHandler =
-            new GetMatrix <SearchableMatrix<State<int>>, string, int>(solve, fileCacheManger);
-    try{
+    BFS<int> bfs;
+    ObjectAdapterSolver oa(bfs);
+    Solver<vector<vector<double>>,string> * solve = new ObjectAdapterSolver(&bfs);
+    CacheManager<string>* fileCacheManger = new FileCacheManger(5);
+    ClientHandler* clientHandler = new GetMatrix (solve, fileCacheManger);
+//    try{
         serialServer.open(5600, *clientHandler);
-    } catch( const char* e){
-        cout<<e<<endl;
-    }
+//    } catch( const char* e){
+//        cout<<e<<endl;
+//    }
     std::cout << "Hello, World!" << std::endl;
     return 0;
 }

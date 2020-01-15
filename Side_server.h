@@ -8,7 +8,7 @@
  * Server interface - has two methods: open server socket and stop server opertion.
  * */
 #include <netinet/in.h>
-#include "ClientHandler.h"
+#include "clientHandler/ClientHandler.h"
 
 namespace side_server {
     static bool stop = false; // to close the thread server

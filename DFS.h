@@ -4,6 +4,7 @@
 
 #ifndef EX4_DFS_H
 #define EX4_DFS_H
+/*
 #include "SerachAlgo/SearcherPriority.h"
 using namespace std;
 template <class T, class Solution>
@@ -29,12 +30,12 @@ Solution DFS<T,Solution>::search(Isearchable<State<T>> searchable) {
             }
         }
         searchable.setValOfVertex(n, "Black");
-    }*/
+    }
 }
 
 template <class T, class Solution>
 Solution DFS<T,Solution>::backTrace() {}
-
+*/
 
 
 #endif //EX4_DFS_H

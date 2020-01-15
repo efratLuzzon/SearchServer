@@ -7,6 +7,7 @@
 
 #include "SerachAlgo/SearcherPriority.h"
 using namespace std;
+/*
 template <class T, class Solution>
 class BestFirstSearch : public Searcher<T,Solution> {
 public:
@@ -19,7 +20,8 @@ template <class T, class Solution>
 BestFirstSearch<T,Solution>::BestFirstSearch() {}
 template <class T, class Solution>
 Solution BestFirstSearch<T,Solution>::search(Isearchable<State<T>>* searchable) {
-    /*this->addToOpenList(searchable->getInitialState());
+    /*auto a = searchable->getInitialState();
+    this->addToOpenList(a);
     priority_queue<State<T>> closed = priority_queue<State<T>>();
     while (this->openListSize() > 0) {
         State<T> n = this->popOpenList();
@@ -53,11 +55,11 @@ Solution BestFirstSearch<T,Solution>::search(Isearchable<State<T>>* searchable) 
                 }
             }
         }
-    }*/
+    }
 }
 template <class T, class Solution>
 Solution BestFirstSearch<T,Solution>::backTrace() {
     return Solution();
-}
+}*/
 
 #endif //EX4_BESTFIRSTSEARCH_H

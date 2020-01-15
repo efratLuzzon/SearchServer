@@ -6,10 +6,11 @@
 #define EX4_ISEARCHER_H
 
 #include "Isearchable.h"
-template <class T, class Solution>
+template <class Problem, class Solution>
 class Isearcher {
 public:
-    virtual Solution search (Isearchable<State<T>>* searchable) =  0;
+    virtual Solution search (Isearchable<Problem>* searchable) =  0;
     virtual int getNumOfNodesEvaluated() = 0;
+    virtual ~Isearcher(){}
 };
 #endif //EX4_ISEARCHER_H

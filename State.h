@@ -1,58 +1,82 @@
 //
 // Created by user on 08/01/2020.
 //
-
+#pragma once
 #ifndef EX4_STATE_H
 #define EX4_STATE_H
-
+using namespace std;
 
 template <class T>
 class State {
 private:
-    T _stateX;
-    T _stateY;
+    T _state;
     double _cost;
     State<T>* _comeFrom;
+    bool _isViseted;
 public:
-    State(T &state1, T &state2);
-    bool operator < (State<T>&) const;
-    bool operator > (State<T>&) const;
-    bool Equals(State<T>& state) const;
-    void setComeFrom(State<T>& );
-    const double getCost();
+    bool isIsViseted() const;
+    void setIsViseted(bool isViseted);
+    State(T state, State<T>* comeFrom, double cost) : _state(state), _comeFrom(comeFrom)
+    , _cost(cost){}
+    //compare cost
+    inline bool operator==(const State<T>&) const ;
+//    inline bool operator!=(const State<pair<T, T>>& ) const;
+//    inline bool operator< (const State<pair<T, T>>&) const;
+//    inline bool operator> (const State<pair<T, T>>&) const;
+//    inline bool operator<=(const State<pair<T, T>>& ) const;
+//    inline bool operator>=(const State<pair<T, T>>&) const;
+//    bool Equals(State<pair<T, T>>& state) ;
+    void setComeFrom(State<T>*);
+    State<T>* getComeFrom();
+    double getCost() const ;
     void setCost(double);
-    T getStateX();
-    T getStateY();
-};
+    T getState();
 
+};
 template<class T>
-State<T>::State(T &state1, T &state2) {
-    _stateX = state1;
-    _stateY = state2;
-    _cost = 0;
-    _comeFrom = nullptr;
+State<T> * State<T>::getComeFrom() {
+    return _comeFrom;
 }
 template<class T>
-bool State<T>::Equals(State<T>& state) const{
-    bool equal = false;
-    if((this->_stateX == state._stateX) && (_stateY == state._stateY)){
-        equal = true;
-    }
-    return equal;
+bool State<T>::operator==(const State<T> & state)const {
+    return (getState() == state.getState());
 }
+//template<class T>
+//bool State<T>::operator!=(const State<pair<T, T>> & state)const {
+//    return (state.getCost() != _cost);
+//}
+//template<class T>
+//bool State<T>::operator<(const State<pair<T, T>> & state) const{
+//    return (state.getCost() < _cost);
+//}
+//template<class T>
+//bool State<T>::operator>(const State<pair<T, T>>& state) const{
+//    return (state.getCost() > _cost);
+//}
+//template<class T>
+//bool State<T>::operator>=(const State<pair<T, T>> & state) const{
+//    return (state.getCost() >= _cost);
+//}
+//template<class T>
+//bool State<T>::operator<=(const State<pair<T, T>> & state)const {
+//    return (state.getCost() <= _cost);
+//}
+
+//template<class T>
+//bool State<T>::Equals(State<pair<T, T>>& state) {
+//    bool equal = false;
+//    if((_state.first == state.getState().first) && (_state.second == state.getState().second)
+//       &&(this==state)){
+//        equal = true;
+//    }
+//    return equal;
+//}
 template<class T>
-void State<T>::setComeFrom(State<T> &state) {
+void State<T>::setComeFrom(State<T>* state) {
     _comeFrom = state;
 }
-template<class T>
-bool State<T>::operator>(State<T>& s) const {
-    return (s.getCost() > _cost);
-}
-template<class T>
-bool State<T>::operator<(State<T>& s) const {
-    return (s.getCost() < _cost);
-}
-template <class T> const double State<T>::getCost() {
+
+template <class T>  double State<T>::getCost() const {
     return _cost;
 }
 template <class T>
@@ -60,12 +84,18 @@ void State<T>::setCost(double cost) {
     _cost = cost;
 }
 template <class T>
-T State<T>::getStateX() {
-    return _stateX;
+T State<T>::getState() {
+    return _state;
 }
-template <class T>
-T State<T>::getStateY() {
-    return _stateY;
+
+template<class T>
+bool State<T>::isIsViseted() const {
+    return _isViseted;
+}
+
+template<class T>
+void State<T>::setIsViseted(bool isViseted) {
+    _isViseted = isViseted;
 }
 
 
