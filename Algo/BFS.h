@@ -41,6 +41,7 @@ vector<State<T>*> BFS<T>::search(Isearchable<T>* searchable) {
         for (int j = 0; j < adj.size(); j++) {
             //if (*adj[j]) {
                 if ((*goal).Equals(adj[j])) {
+
                     vector<State<T>*> result = this->traceBack(init, goal);
                     std::cout << "Found it " << j << std::endl;
                     return result;
