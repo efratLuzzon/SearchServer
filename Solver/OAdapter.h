@@ -11,9 +11,9 @@
 using namespace std;
 class ObjectAdapterSolver : public Solver<vector<vector<double>>,string>{
 private:
-    Isearcher<Isearchable<vector<vector<double>>>, string>* _searcher;
+    Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* _searcher;
 public:
-    ObjectAdapterSolver(Isearcher<Isearchable<vector<vector<double>>>, string>* searcher) : _searcher(searcher){}
+    ObjectAdapterSolver(Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* searcher) : _searcher(searcher){}
     virtual string solve(vector<vector<double>>){ return "std::__cxx11::string()"; }
     virtual ~ObjectAdapterSolver(){}
 };

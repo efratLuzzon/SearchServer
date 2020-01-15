@@ -9,10 +9,10 @@
 
 class GetMatrix : public ClientHandler {
 private:
-    Solver<string, vector<vector<double>>>* _solver;
+    Solver<vector<vector<double>>,string> * _solver;
     CacheManager<string>* _cacheManager;
 public:
-    GetMatrix(Solver<string, vector<vector<double>>>* solver, CacheManager<string>* cacheManager):
+    GetMatrix(Solver<vector<vector<double>>,string> * solver, CacheManager<string>* cacheManager):
     _solver(solver), _cacheManager(cacheManager){}
 
     virtual void handleClient(int soctefd, int clientSocket);

@@ -29,9 +29,6 @@ void GetMatrix::handleClient(int soctefd, int clientSocket) {
                 //convert string to double
                 std::string::size_type sz;
                 double cost = std::stod (weight,&sz);
-                if(cost == -1){
-                    cost = std::numeric_limits<double>::max();
-                }
                 oneLineMatrix.push_back(cost);
                 weight.clear();
                 linesMatrix.push_back(oneLineMatrix);
@@ -40,9 +37,6 @@ void GetMatrix::handleClient(int soctefd, int clientSocket) {
                 //convert string to double
                 std::string::size_type sz;
                 double cost = std::stod (weight,&sz);
-                if(cost == -1){
-                    cost = std::numeric_limits<double>::max();
-                }
                 oneLineMatrix.push_back(cost);
                 weight.clear();
             } else {

@@ -9,8 +9,8 @@
 #include "../SerachAlgo/SearchableMatrix.h"
 #include <string>
 using namespace std;
-template<class Problem, class Solution> class Solver {
-
+template<class Problem, class Solution>
+class Solver {
 public:
     virtual Solution solve(Problem) = 0;
     virtual ~Solver(){}

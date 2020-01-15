@@ -7,21 +7,20 @@
 
 #include "Isearcher.h"
 template <class T>
-class SearcherAbstract : public Isearcher<T , vector<State<T>>>{
+class SearcherAbstract : public Isearcher<T , vector<State<T>*>>{
 protected:
     int numOfNodesEvaluated = 0;
-    vector<State<T>> traceBack(State<T>* init, State<T>* goal);
+    vector<State<T>*> traceBack(State<T>* init, State<T>* goal);
 public:
-    virtual vector<State<T>> search (Isearchable<T>* searchable); //abstract method
     virtual int getNumOfNodesEvaluated();
     virtual ~SearcherAbstract(){}
 };
 template <class T>
-vector<State<T>> SearcherAbstract<T>::traceBack(State<T> *init, State<T> *goal) {
-    vector<State<T>> prevState;
-    vector<State<T>> path;
+vector<State<T>*> SearcherAbstract<T>::traceBack(State<T> *init, State<T> *goal) {
+    vector<State<T>*> prevState;
+    vector<State<T>*> path;
     prevState.push_back(goal);
-    while(*goal != *init){
+    while(!(*goal).Equals(init)){
         goal = goal->getComeFrom();
         prevState.push_back(goal);
     }

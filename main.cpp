@@ -14,9 +14,9 @@ using namespace std;
 
 int main() {
     MySerialServer serialServer;
-    BFS<int> bfs;
-    ObjectAdapterSolver oa(bfs);
-    Solver<vector<vector<double>>,string> * solve = new ObjectAdapterSolver(&bfs);
+    Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* bfs = new BFS<pair<int, int>>;
+    //ObjectAdapterSolver oa = ObjectAdapterSolver(bfs);
+    Solver<vector<vector<double>>,string> * solve = new ObjectAdapterSolver(bfs);
     CacheManager<string>* fileCacheManger = new FileCacheManger(5);
     ClientHandler* clientHandler = new GetMatrix (solve, fileCacheManger);
 //    try{
