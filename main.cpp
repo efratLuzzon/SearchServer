@@ -22,7 +22,7 @@ int main() {
     CacheManager<string>* fileCacheManger = new FileCacheManger(5);
     ClientHandler* clientHandler = new GetMatrix (solve, fileCacheManger);
 //    try{
-        serialServer.open(5600, *clientHandler);
+        serialServer.open(5601, *clientHandler);
 //    } catch( const char* e){
 //        cout<<e<<endl;
 //    }
