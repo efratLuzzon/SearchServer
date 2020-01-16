@@ -6,7 +6,9 @@
 
 
 
-//string ObjectAdapterSolver::solve(vector<vector<double>> matrix) {
-//    Solution solution = searcher->search(problem);
-//    return solution;
-//}
+string ObjectAdapterSolver::solve(vector<vector<double>> matrix) {
+    Isearchable<pair<int, int>> *searchable = new SearchableMatrix(matrix);
+    vector<State<pair<int, int>> *> solution = _searcher->search(searchable);
+
+    return "efrat";
+}

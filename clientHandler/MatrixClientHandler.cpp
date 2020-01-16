@@ -44,6 +44,7 @@ void GetMatrix::handleClient(int soctefd, int clientSocket) {
             }
         }
     }
+    _solver->solve(linesMatrix);
     //TODO try - catch
 
 

@@ -24,7 +24,7 @@ vector<State<T>*> SearcherAbstract<T>::traceBack(State<T> *init, State<T> *goal)
         goal = goal->getComeFrom();
         prevState.push_back(goal);
     }
-    for(int i = prevState.size(); i > 0; i--){
+    for(int i = prevState.size() - 1; i >= 0; i--){
         path.push_back(prevState[i]);
     }
     return path;

@@ -14,7 +14,7 @@ private:
     Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* _searcher;
 public:
     ObjectAdapterSolver(Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* searcher) : _searcher(searcher){}
-    virtual string solve(vector<vector<double>>){ return "std::__cxx11::string()"; }
+    virtual string solve(vector<vector<double>>);
     virtual ~ObjectAdapterSolver(){}
 };
 #endif //EX4_OADAPTER_H

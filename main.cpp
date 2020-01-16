@@ -1,12 +1,14 @@
 #include <iostream>
 #include <string>
 #include "ServerImplements.h"
-#include "BestFirstSearch.h"
+#include "Algo/BestFirstSearch.h"
 #include "Solver/Solver.h"
 #include "Algo/BFS.h"
 #include "clientHandler/MatrixClientHandler.h"
 #include "Solver/OAdapter.h"
 #include "CacheManager/FileCacheManager.h"
+#include "Algo/DFS.h"
+#include "Algo/BestFirstSearch.h"
 
 using namespace std;
 
@@ -14,7 +16,7 @@ using namespace std;
 
 int main() {
     MySerialServer serialServer;
-    Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* bfs = new BFS<pair<int, int>>;
+    Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* bfs = new BestFirstSearch<pair<int, int>>;
     //ObjectAdapterSolver oa = ObjectAdapterSolver(bfs);
     Solver<vector<vector<double>>,string> * solve = new ObjectAdapterSolver(bfs);
     CacheManager<string>* fileCacheManger = new FileCacheManger(5);

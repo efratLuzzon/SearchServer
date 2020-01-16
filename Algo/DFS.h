@@ -2,37 +2,37 @@
 // Created by user on 13 ינואר 2020.
 //
 #pragma once
-#ifndef EX4_BFS_H
-#define EX4_BFS_H
-
-#include "../MyStruct/MyQueqe.h"
+#ifndef EX4_DFS_H
+#define EX4_DFS_H
 #include <iostream>
 #include "../State.h"
 #include "../SerachAlgo/SearcherAbstract.h"
 #include <set>
+#include <stack>
+
 using namespace std;
 
 template <class T>
-class BFS : public SearcherAbstract<T>{
+class DFS : public SearcherAbstract<T>{
 public:
-    BFS(){}
+    DFS(){}
     virtual vector<State<T>*> search (Isearchable<T>* searchable); //abstract method
 };
 template <class T>
-vector<State<T>*> BFS<T>::search(Isearchable<T>* searchable) {
+vector<State<T>*> DFS<T>::search(Isearchable<T>* searchable) {
     this->numOfNodesEvaluated = 0;
     State<T>* init = searchable->getInitialState();
     State<T>* goal = searchable->getgoalState();
-    std::queue<State<T>*> vertex_queue;
+    std::stack<State<T>*> vertex_stack;
     std::set<T> visited_vertices;
-    visited_vertices.insert(init->getState()); //mark
-    vertex_queue.push(init);
+    visited_vertices.insert(init->getState()); //mark init
+    vertex_stack.push(init);
 
-    while(!vertex_queue.empty()) {
+    while(!vertex_stack.empty()) {
         this->numOfNodesEvaluated++;
         // Get next vertex
-        State<T>* current_vertex = vertex_queue.front();
-        vertex_queue.pop();
+        State<T>* current_vertex = vertex_stack.top();
+        vertex_stack.pop();
 
         if ((*goal).Equals(current_vertex)) {
 
@@ -44,8 +44,8 @@ vector<State<T>*> BFS<T>::search(Isearchable<T>* searchable) {
         vector<State<T>*> adj = searchable->getAllPossibleStates(current_vertex);
         for (int j = 0; j < adj.size(); j++) {
             if (!(visited_vertices.find(adj[j]->getState()) != visited_vertices.end())) {
-                    visited_vertices.insert(adj[j]->getState());
-                    vertex_queue.push(adj[j]);
+                visited_vertices.insert(adj[j]->getState());
+                vertex_stack.push(adj[j]);
             }
         }
     }
@@ -53,4 +53,4 @@ vector<State<T>*> BFS<T>::search(Isearchable<T>* searchable) {
 }
 
 
-#endif //EX4_BFS_H
+#endif //EX4_DFS_H

@@ -9,7 +9,7 @@ using namespace std;
 template <class T>
 class State {
 private:
-    T* ptr;
+//    T* ptr;
     T _state;
     double _cost;
     State<T>* _comeFrom;
@@ -17,11 +17,13 @@ private:
 public:
     bool isIsViseted() const;
     void setIsViseted(bool isViseted);
-    State(T state, State<T>* comeFrom, double cost) : ptr(&state), _state(state), _comeFrom(comeFrom)
+    State(T state, State<T>* comeFrom, double cost) : /*ptr(&state),*/ _state(state), _comeFrom(comeFrom)
     , _cost(cost){}
     //compare cost
     //inline bool operator==(const State<T>&) const ;
-    T* getPtr();
+
+//    T* getPtr();
+
 //    inline bool operator!=(const State<pair<T, T>>& ) const;
 //    inline bool operator< (const State<pair<T, T>>&) const;
 //    inline bool operator> (const State<pair<T, T>>&) const;
@@ -36,10 +38,10 @@ public:
     T getState();
 
 };
-template<class T>
-T* State<T>::getPtr() {
-    return ptr;
-}
+//template<class T>
+//T* State<T>::getPtr() {
+//    return ptr;
+//}
 template<class T>
 State<T> * State<T>::getComeFrom() {
     return _comeFrom;
@@ -69,7 +71,14 @@ State<T> * State<T>::getComeFrom() {
 //}
 template<class T>
 bool State<T>::Equals(State<T>* state) {
-    return (getPtr() == state->getPtr());
+    bool equal = false;
+    T cur = this->getState();
+    T other = state->getState();
+    if((cur.first == other.first) && (cur.second == other.second)){
+        equal = true;
+    }
+    return equal;
+//    return (getPtr() == state->getPtr());
 }
 template<class T>
 void State<T>::setComeFrom(State<T>* state) {
