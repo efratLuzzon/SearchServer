@@ -17,6 +17,8 @@ public:
 };
 template <class T>
 vector<State<T>*> SearcherAbstract<T>::traceBack(State<T> *init, State<T> *goal) {
+    cout<<"cost goal"<<goal->getCost()<<endl;
+    cout<<this->numOfNodesEvaluated<<endl;
     vector<State<T>*> prevState;
     vector<State<T>*> path;
     prevState.push_back(goal);

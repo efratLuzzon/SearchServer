@@ -7,19 +7,16 @@
 
 #include "FileCacheManager.h"
 #include "CacheManager.h"
+#include <unordered_set>
 class FileCacheManger : public CacheManager<string>{
 private:
-    unordered_map<string, pair<string, list<string>::iterator>> _cacheMap;
-    int _capacity;
-    list<string> _lruKeys;
+    unordered_set<string> numProblem;
 public:
-    FileCacheManger(int capacity) : _capacity(capacity){}
+    FileCacheManger(){}
     virtual string get(string);
     virtual void insert(string, string);
-    void use(typename unordered_map<string, pair<string, list<string>::iterator>>::iterator& it);
+    virtual bool isExsist(string);
     virtual ~FileCacheManger(){}
-//    template <class Predicate>
-//    void foreach(Predicate p);
 };
 
 #endif //EX4_FILECACHEMANAGER_H

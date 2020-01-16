@@ -1,12 +1,11 @@
 //
 // Created by user on 08  2020.
 //
-
+#pragma once
 #ifndef EX4_SEARCHABLEMATRIX_H
 #define EX4_SEARCHABLEMATRIX_H
 
 #include "Isearchable.h"
-#include "../Graph.h"
 #include <vector>
 #include <unordered_map>
 

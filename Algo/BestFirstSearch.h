@@ -136,6 +136,8 @@ vector<State<T>*> BestFirstSearch<T>::search(Isearchable<T>* searchable) {
                 }
             }
         }
+        vector<State<T> *> emptyVector;
+        return emptyVector;
     }
     /*Best First Search:
     OPEN = [initial state] // a priority queue of states to be evaluated

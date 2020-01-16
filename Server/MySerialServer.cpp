@@ -2,12 +2,12 @@
 // Created by magshimim on 8.1.2020.
 //
 
-#include "ServerImplements.h"
+#include "MySerialServer.h"
 /*
  * open server that accept one client every time.
  * */
-void MySerialServer::open(int port,ClientHandler& clientHandler) {
-    this->clientHandler = &clientHandler;
+void MySerialServer::open(int port,ClientHandler* clientHandler) {
+    this->clientHandler = clientHandler;
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if (socketfd == -1) {
         //error
@@ -59,7 +59,7 @@ void MySerialServer::startThreadOPeration() {
         if (client_socket == -1) {
             throw "Error accepting client";
         }
-        clientHandler->handleClient(this->socketfd, client_socket);
+        clientHandler->handleClient(client_socket);
         cout<<"enter"<<endl;
         close(client_socket);
         //do operation

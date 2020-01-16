@@ -2,8 +2,8 @@
 // Created by magshimim on 8.1.2020.
 //
 
-#ifndef EX4_SERVERIMPLEMENTS_H
-#define EX4_SERVERIMPLEMENTS_H
+#ifndef EX4_MYSERIALSERVER_H
+#define EX4_MYSERIALSERVER_H
 
 #include "Side_server.h"
 #include <arpa/inet.h>
@@ -19,7 +19,7 @@
  * */
 class MySerialServer : side_server::Server{
 public:
-    virtual void open(int port, ClientHandler&);
+    virtual void open(int port, ClientHandler*);
     virtual void startThreadOPeration();
     virtual void stop(){};
     virtual ~MySerialServer();
@@ -30,4 +30,4 @@ private:
     void startThread();
     std::thread acceptClient;
 };
-#endif //EX4_SERVERIMPLEMENTS_H
+#endif //EX4_MYSERIALSERVER_H

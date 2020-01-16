@@ -4,7 +4,7 @@
 
 #include "MyTestClientHandler.h"
 
-void MyTestClientHandler::handleClient(int soctefd, int clientSocket) {
+void MyTestClientHandler::handleClient(int clientSocket) {
     string problem;
 
     char buf[1024] = {0};

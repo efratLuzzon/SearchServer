@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "ServerImplements.h"
+#include "Server/MySerialServer.h"
 #include "Algo/BestFirstSearch.h"
 #include "Solver/Solver.h"
 #include "Algo/BFS.h"
@@ -9,7 +9,7 @@
 #include "CacheManager/FileCacheManager.h"
 #include "Algo/DFS.h"
 #include "Algo/BestFirstSearch.h"
-
+#include "Server/MyParallelServer.h"
 using namespace std;
 
 
@@ -31,15 +31,14 @@ int main() {
 
 
 
-
-    MySerialServer serialServer;
-    Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* bfs = new BestFirstSearch<pair<int, int>>;
+    MySerialServer server;
+    Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* bfs = new DFS<pair<int, int>>;
     //ObjectAdapterSolver oa = ObjectAdapterSolver(bfs);
     Solver<vector<vector<double>>,string> * solve = new ObjectAdapterSolver(bfs);
-    CacheManager<string>* fileCacheManger = new FileCacheManger(5);
+    CacheManager<string>* fileCacheManger = new FileCacheManger();
     ClientHandler* clientHandler = new GetMatrix (solve, fileCacheManger);
 //    try{
-        serialServer.open(5600, *clientHandler);
+    server.open(5600, clientHandler);
 //    } catch( const char* e){
 //        cout<<e<<endl;
 //    }

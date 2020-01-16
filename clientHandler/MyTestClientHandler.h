@@ -21,10 +21,10 @@ private:
     CacheManager<string>* cacheManager;
 public:
     MyTestClientHandler(){
-        this->cacheManager = new FileCacheManger(2);
+        this->cacheManager = new FileCacheManger();
         this->solver = new StringReverser();
     }
-    virtual void handleClient(int soctefd, int clientSocket);
+    virtual void handleClient(int clientSocket);
     virtual ~MyTestClientHandler(){}
 };
 #endif //EX4_MYTESTCLIENTHANDLER_H

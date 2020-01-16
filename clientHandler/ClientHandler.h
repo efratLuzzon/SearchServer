@@ -1,7 +1,7 @@
 //
 // Created by magshimim on 8.1.2020.
 //
-
+#pragma once
 #ifndef EX4_CLIENTHANDLER_H
 #define EX4_CLIENTHANDLER_H
 
@@ -10,7 +10,6 @@
 #include <iostream>
 #include "../Solver/Solver.h"
 #include "../CacheManager/CacheManager.h"
-#include "../Graph.h"
 #include <unistd.h>
 #include <vector>
 #include <list>
@@ -23,7 +22,7 @@ class ClientHandler {
 public:
 
     //get stream from client and write answer by server to client
-    virtual void handleClient(int soctefd, int clientSocket) = 0;
+    virtual void handleClient(int clientSocket) = 0;
     virtual ~ClientHandler(){}
 };
 #endif //EX4_CLIENTHANDLER_H

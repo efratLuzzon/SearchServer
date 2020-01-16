@@ -4,7 +4,7 @@
 
 #include "MatrixClientHandler.h"
 
-void GetMatrix::handleClient(int soctefd, int clientSocket) {
+void GetMatrix::handleClient(int clientSocket) {
     bool endRead = false;
     string problem;
     string weight;
@@ -13,6 +13,10 @@ void GetMatrix::handleClient(int soctefd, int clientSocket) {
     vector<double > oneLineMatrix;
     vector<vector<double >> linesMatrix;
 
+    if (clientSocket < 0) {
+        perror("ERROR on accept");
+        exit(1);
+    }
     while (!endRead) {
         char buf[1024] = {0};
         int n = read(clientSocket, buf, 1024);
@@ -56,14 +60,21 @@ void GetMatrix::handleClient(int soctefd, int clientSocket) {
     //get num hash
     std::size_t str_hash =  std::hash<std::string>{}(allProblem);
     allProblem = to_string(str_hash);
-    try {
-        string  solution = this->_cacheManager->get(allProblem);
+    if(_cacheManager->isExsist(allProblem)){
+        solution = this->_cacheManager->get(allProblem);
         cout<<"get: "<<solution<<endl;
-    } catch (const char* e) {
+    } else {
         solution = _solver->solve(linesMatrix);
+        if(solution == ""){
+            solution = "no solution";
+        }
         this->_cacheManager->insert(allProblem, solution);
         cout<<"solve: "<<solution<<endl;
     }
-
+    int isSend = write(clientSocket, solution.c_str(),solution.length());
+    if(isSend == -1){
+        std::cout << "Error sending message" << std::endl;
+    }
+    cout<<"done"<<endl;
 
 }

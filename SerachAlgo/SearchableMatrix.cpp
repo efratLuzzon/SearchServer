@@ -37,7 +37,9 @@ vector<State<pair<int, int>>*> SearchableMatrix::getAllPossibleStates(State<pair
     if(v.second > 0) {
         costAdj = _matrix[v.first][v.second - 1];
         pair<int, int> p = {v.first,v.second - 1};
-        adj.push_back( new State<pair<int, int>>(p, state,costFather + costAdj));
+        if(costAdj != -1) {
+            adj.push_back(new State<pair<int, int>>(p, state, costFather + costAdj));
+        }
     }
     if(v.first < _matrix.size() - 3) {
         costAdj = _matrix[v.first + 1][v.second];

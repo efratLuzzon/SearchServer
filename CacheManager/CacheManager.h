@@ -22,10 +22,12 @@ using namespace std;
  * EACH OBJECT MUST HAVE CLASSNAME!!
  * */
 template <class Object> class CacheManager {
-
+protected:
+    mutable pthread_mutex_t mutex;
 public:
     virtual Object get(string) = 0;
     virtual void insert(string, Object) = 0;
+    virtual bool isExsist(string) = 0;
     virtual ~CacheManager(){}
 };
 

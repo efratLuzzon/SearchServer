@@ -8,7 +8,7 @@
  * Server interface - has two methods: open server socket and stop server opertion.
  * */
 #include <netinet/in.h>
-#include "clientHandler/ClientHandler.h"
+#include "../clientHandler/ClientHandler.h"
 
 namespace side_server {
     static bool stop = false; // to close the thread server
@@ -17,7 +17,7 @@ namespace side_server {
      * */
     class Server {
     public:
-        virtual void open(int port, ClientHandler&) = 0;
+        virtual void open(int port, ClientHandler*) = 0;
         virtual void startThreadOPeration() = 0;
         virtual void stop() = 0;
         virtual ~Server(){}

@@ -49,7 +49,8 @@ vector<State<T>*> BFS<T>::search(Isearchable<T>* searchable) {
             }
         }
     }
-    std::cout << "Could not find it!" << std::endl;
+    vector<State<T> *> emptyVector;
+    return emptyVector;
 }
 
 
