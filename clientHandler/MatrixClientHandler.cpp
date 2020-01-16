@@ -8,6 +8,8 @@ void GetMatrix::handleClient(int soctefd, int clientSocket) {
     bool endRead = false;
     string problem;
     string weight;
+    string solution;
+    string allProblem = "";
     vector<double > oneLineMatrix;
     vector<vector<double >> linesMatrix;
 
@@ -44,28 +46,24 @@ void GetMatrix::handleClient(int soctefd, int clientSocket) {
             }
         }
     }
-    _solver->solve(linesMatrix);
-    //TODO try - catch
+    for(int i = 0; i < linesMatrix.size(); i++){
+        for(int j = 0; j < linesMatrix[i].size(); j++){
+            allProblem +=to_string(linesMatrix[i][j]) + ",";
+        }
+        allProblem +=";";
+    }
+    allProblem +=";";
+    //get num hash
+    std::size_t str_hash =  std::hash<std::string>{}(allProblem);
+    allProblem = to_string(str_hash);
+    try {
+        string  solution = this->_cacheManager->get(allProblem);
+        cout<<"get: "<<solution<<endl;
+    } catch (const char* e) {
+        solution = _solver->solve(linesMatrix);
+        this->_cacheManager->insert(allProblem, solution);
+        cout<<"solve: "<<solution<<endl;
+    }
 
-
-//    vector<vector<State<T>>> matrix;
-//    int i = 0, j = 0;
-//    for(i = 0; i < linesMatrix.size() -2 ; i++){
-//        vector<T> line = linesMatrix[0];
-//        vector<State<T>> lineState;
-//        for(j = 0; j < line.size(); j++){
-//            State<int> s(i, j);
-//            s.setCost(line[j]);
-//            lineState.push_back(s);
-//        }
-//        matrix.push_back(lineState);
-//    }
-//    int sizeMatrix = linesMatrix.size();
-//    State<T> initalizeState(linesMatrix[sizeMatrix - 2][0], linesMatrix[sizeMatrix - 2][1]);
-//    State<T> goalState(linesMatrix[sizeMatrix - 1][0], linesMatrix[sizeMatrix - 1][1]);
-//    Isearchable<T>* matrixSearchable = new SearchableMatrix<T>(&initalizeState, &goalState, matrix);
-//    matrixSearchable->setMatrixSize(i*j);
-//    cout<<"end"<<endl;
-//    _solver->solve(matrixSearchable);
 
 }
