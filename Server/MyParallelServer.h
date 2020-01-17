@@ -19,6 +19,7 @@ class MyParallelServer : public side_server::Server {
     int sockfd{};
     int port{};
     ClientHandler* clientHandler{};
+    bool toStop = false;
 public:
     void open(int port, ClientHandler *cH);
     virtual void startThreadOPeration(){}

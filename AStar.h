@@ -8,6 +8,12 @@
 using namespace std;
 template <class T, class Solution>
 class AStar : Searcher<T,Solution> {
+    class Compare {
+    public:
+        bool operator()(State<T>* left, State<T>* right) {
+            return (left->getCost()) > (right->getCost());
+        }
+    };
 public:
     AStar();
     virtual Solution search (Isearchable<State<T>> searchable);

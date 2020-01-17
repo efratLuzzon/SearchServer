@@ -29,9 +29,9 @@ void GetMatrix::handleClient(int clientSocket) {
                 endRead = true;
                 break;
             }
-            if (problem[i] == '@') {
+            if (problem[i] == '@' || problem[i] == 'A') {
                 break;
-            } else if (problem[i] == '\n') {
+            } else if (problem[i] == '\n' || problem[i] == '!') {
                 //convert string to double
                 std::string::size_type sz;
                 double cost = std::stod (weight,&sz);
@@ -76,5 +76,4 @@ void GetMatrix::handleClient(int clientSocket) {
         std::cout << "Error sending message" << std::endl;
     }
     cout<<"done"<<endl;
-
 }

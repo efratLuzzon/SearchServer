@@ -124,7 +124,7 @@ void MyParallelServer::stop() {
         pthread_join(this->threads.top(), nullptr);
         this->threads.pop();
     }
-    close(this->sockfd);
+    toStop = true;
 }
 
 void *MyParallelServer::startThreadClient(void *params) {
@@ -139,18 +139,21 @@ void MyParallelServer::start() {
 
     timeval timeout;
     int newSocket;
-    while (true) {
+    while (!this->toStop) {
         newSocket = accept(sockfd, (struct sockaddr *) &address, (socklen_t *) &addrlen);
         timeout.tv_sec = 10;
         timeout.tv_usec = 0;
         setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *) &timeout, sizeof(timeout));
         if (newSocket < 0) {
             if (errno == EWOULDBLOCK || errno == EAGAIN) {
+                cout << "Timeout" << endl;
+                stop();
                 break;
             }
             perror("accept");
             exit(EXIT_FAILURE);
         }
+        cout << "Accepted client" << endl;
         setsockopt(newSocket, SOL_SOCKET, SO_RCVTIMEO, (char *) &timeout, sizeof(timeout));
         auto data = new info;
         data->clientHandler = this->clientHandler;
@@ -162,5 +165,5 @@ void MyParallelServer::start() {
         }
         this->threads.push(trid);
     }
-    stop();
+    close(this->sockfd);
 }

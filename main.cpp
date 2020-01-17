@@ -31,14 +31,15 @@ int main() {
 
 
 
-    MySerialServer server;
+    //MySerialServer server;
+    MyParallelServer server;
     Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* bfs = new DFS<pair<int, int>>;
     //ObjectAdapterSolver oa = ObjectAdapterSolver(bfs);
     Solver<vector<vector<double>>,string> * solve = new ObjectAdapterSolver(bfs);
     CacheManager<string>* fileCacheManger = new FileCacheManger();
     ClientHandler* clientHandler = new GetMatrix (solve, fileCacheManger);
 //    try{
-    server.open(5600, clientHandler);
+    server.open(5610, clientHandler);
 //    } catch( const char* e){
 //        cout<<e<<endl;
 //    }

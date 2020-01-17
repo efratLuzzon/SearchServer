@@ -35,7 +35,6 @@ vector<State<T>*> BFS<T>::search(Isearchable<T>* searchable) {
         vertex_queue.pop();
 
         if ((*goal).Equals(current_vertex)) {
-
             vector<State<T>*> result = this->traceBack(init, current_vertex);
             std::cout << "Found it " << std::endl;
             return result;
