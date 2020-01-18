@@ -10,11 +10,13 @@
 #include "Algo/DFS.h"
 #include "Algo/BestFirstSearch.h"
 #include "Server/MyParallelServer.h"
+#include "AStar.h"
 using namespace std;
 
 
 
 int main() {
+
     std::string str1 = "efrat";
     std::string str2 = "luzzon";
     std::string str3 = "avital";
@@ -33,13 +35,13 @@ int main() {
 
     //MySerialServer server;
     MyParallelServer server;
-    Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* bfs = new DFS<pair<int, int>>;
+    Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* astar = new AStar<pair<int,int>>;
     //ObjectAdapterSolver oa = ObjectAdapterSolver(bfs);
-    Solver<vector<vector<double>>,string> * solve = new ObjectAdapterSolver(bfs);
+    Solver<vector<vector<double>>,string> * solve = new ObjectAdapterSolver(astar);
     CacheManager<string>* fileCacheManger = new FileCacheManger();
     ClientHandler* clientHandler = new GetMatrix (solve, fileCacheManger);
 //    try{
-    server.open(5610, clientHandler);
+    server.open(5613, clientHandler);
 //    } catch( const char* e){
 //        cout<<e<<endl;
 //    }
