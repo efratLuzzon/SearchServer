@@ -6,6 +6,7 @@
 #include "MyParallelServer.h"
 /*void MyParallelServer::open(int port, ClientHandler & clientHandler) {
     _port = port;
+
     _clientHandler = &clientHandler;
     int socetfd;
 
