@@ -30,6 +30,7 @@ public:
     bool ExistInOpen(State<T> *vertex);
     double getHeuristicVal(State<pair<int,int>>* state, State<pair<int,int>>* init);
     void updateTrailCost(State<pair<int,int>>* state, double);
+    void changeTrailCost(State<pair<int,int>>* state, double);
     void updatePriority();
     static double getHeuristicVal (State<T>*);
     double getTrialCost (State<T>*);
@@ -41,6 +42,7 @@ AStar<T>::AStar() {
 }
 template <class T>
 vector<State<T>*> AStar<T>::search(Isearchable<T>* searchable) {
+    this->numOfNodesEvaluated = 0;
     State<T>* cur_vertex;
     open.push(searchable->getInitialState());
     while (!open.empty()) {
@@ -50,15 +52,16 @@ vector<State<T>*> AStar<T>::search(Isearchable<T>* searchable) {
         closed.push_back(cur_vertex);
         if ((*cur_vertex).Equals(searchable->getgoalState())) {
             vector<State<T>*> result = this->traceBack(searchable->getInitialState(), cur_vertex);
+            std::cout << "trailCost "<< cur_vertex->getCost() << std::endl;
             return result;
         }
         vector<State<T>*> successors = searchable->getAllPossibleStates(cur_vertex);
         for (int i = 0; i < successors.size(); ++i) {
             State<T>* neighbor = successors[i];
             if (!ExistInOpen(neighbor) && !ExistInClosed(neighbor)) {
-                std::cout << "Found it " << std::endl;
                 neighbor->setComeFrom(cur_vertex);
-                updateTrailCost(neighbor, getTrialCost(cur_vertex));
+                neighbor->setCost(neighbor->getInitCost() + cur_vertex->getCost());
+                //updateTrailCost(neighbor, getTrialCost(cur_vertex));
                 neighbor->setHeuristicVlaue(getHeuristicVal(neighbor, searchable->getInitialState()));
                 open.push(neighbor);
                 continue;
@@ -66,9 +69,9 @@ vector<State<T>*> AStar<T>::search(Isearchable<T>* searchable) {
             } else if (ExistInClosed(neighbor)){
                 continue;
             }
-            else if (getTrialCost(cur_vertex) + neighbor->getCost() < getTrialCost(neighbor)) {
+            else if (cur_vertex->getCost() + neighbor->getInitCost() < neighbor->getCost()) {
                 neighbor->setComeFrom(cur_vertex);
-                updateTrailCost(neighbor, getTrialCost(cur_vertex) + neighbor->getCost());
+                neighbor->setCost(cur_vertex->getCost() + neighbor->getInitCost());
                 neighbor->setHeuristicVlaue(getHeuristicVal(neighbor, searchable->getInitialState()));
                 updatePriority();
             }
@@ -117,19 +120,29 @@ void AStar<T>::updatePriority(){
 }
 template<class T>
 double AStar<T>::getTrialCost(State<T> *state) {
-    typename unordered_map<State<T>*, double>::iterator it = trailCost.find(state) ;
+    typename unordered_map<State<T>*, double>::iterator it = trailCost.find(state);
     if (it != trailCost.end()) {
         return it->second;
     } else {
-        return std::numeric_limits<double>::infinity();
+        return state->getInitCost();
     }
 }
 
 template<class T>
 void AStar<T>::updateTrailCost(State<pair<int, int>> *state, double val) {
-    typename unordered_map<State<T>*, double>::iterator it = trailCost.find(state) ;
+    typename unordered_map<State<T>*, double>::iterator it = trailCost.find(state);
     if (it != trailCost.end()) {
         trailCost.at(state) = it->second + val;
+    } else {
+        trailCost.insert({state, state->getInitCost() + val});
+    }
+}
+
+template<class T>
+void AStar<T>::changeTrailCost(State<pair<int, int>> *state, double val) {
+    typename unordered_map<State<T>*, double>::iterator it = trailCost.find(state);
+    if (it != trailCost.end()) {
+        trailCost.at(state) = val;
     } else {
         trailCost.insert({state, val});
     }

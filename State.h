@@ -6,6 +6,7 @@
 #define EX4_STATE_H
 
 #include <limits>
+#include <cfloat>
 
 using namespace std;
 
@@ -14,17 +15,19 @@ class State {
 private:
     T _state;
     double _cost;
-    State<T>* _comeFrom;
+    double _initCost;
+    State<T>* _comeFrom = nullptr;
     bool _isViseted;
-    double heuristicVlaue = std::numeric_limits<double>::infinity();
+    double heuristicVlaue = FLT_MAX;
 public:
     bool isIsViseted() const;
     void setIsViseted(bool isViseted);
-    State(T state, State<T>* comeFrom, double cost) : _state(state), _comeFrom(comeFrom), _cost(cost){}
+    State(T state, State<T>* comeFrom, double cost, double initcost) : _state(state), _comeFrom(comeFrom), _cost(cost), _initCost(initcost){}
     bool Equals(State<T>* state);
     void setComeFrom(State<T>*);
     State<T>* getComeFrom();
     double getCost() const ;
+    double getInitCost() const ;
     void setCost(double);
     T getState();
     double getHeuristicVlaue();
@@ -83,4 +86,10 @@ template<class T>
 void State<T>::setHeuristicVlaue(double val) {
     this->heuristicVlaue = val;
 }
+
+template<class T>
+double State<T>::getInitCost() const {
+    return _initCost;
+}
+
 #endif //EX4_STATE_H

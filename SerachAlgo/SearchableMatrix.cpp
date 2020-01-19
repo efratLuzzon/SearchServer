@@ -8,11 +8,11 @@ SearchableMatrix::SearchableMatrix(vector<vector<double>>& matrix) {
     int sizeMatrix = _matrix.size();
     pair<int, int> pairInit= make_pair(_matrix[sizeMatrix - 2][0],_matrix[sizeMatrix - 2][1]);
     _initialState = new State<pair<int, int>>(pairInit, nullptr,
-                                              _matrix[pairInit.first][pairInit.second]);
+            _matrix[pairInit.first][pairInit.second],_matrix[pairInit.first][pairInit.second]);
 
     pair<int, int> pairGoal = make_pair(_matrix[sizeMatrix - 1][0],_matrix[sizeMatrix - 1][1]);
     _goalState = new State<pair<int, int>>(pairGoal, nullptr,
-                                           _matrix[pairGoal.first][pairGoal.second]);
+                                           _matrix[pairGoal.first][pairGoal.second], _matrix[pairGoal.first][pairGoal.second]);
 }
 State<pair<int, int>>* SearchableMatrix::getInitialState() {
     return _initialState;
@@ -31,28 +31,28 @@ vector<State<pair<int, int>>*> SearchableMatrix::getAllPossibleStates(State<pair
         costAdj = _matrix[v.first - 1][v.second];
         pair<int, int> p = {v.first - 1,v.second};
         if (costAdj != -1) {
-            adj.push_back(new State<pair<int, int>>(p, state, costFather + costAdj));
+            adj.push_back(new State<pair<int, int>>(p, state, costFather + costAdj, costAdj));
         }
     }
     if(v.second > 0) {
         costAdj = _matrix[v.first][v.second - 1];
         pair<int, int> p = {v.first,v.second - 1};
         if(costAdj != -1) {
-            adj.push_back(new State<pair<int, int>>(p, state, costFather + costAdj));
+            adj.push_back(new State<pair<int, int>>(p, state, costFather + costAdj, costAdj));
         }
     }
     if(v.first < _matrix.size() - 3) {
         costAdj = _matrix[v.first + 1][v.second];
         pair<int, int> p = {v.first + 1,v.second};
         if (costAdj != -1) {
-            adj.push_back(new State<pair<int, int>>(p, state, costFather + costAdj));
+            adj.push_back(new State<pair<int, int>>(p, state, costFather + costAdj,costAdj));
         }
     }
     if(v.second < _matrix[0].size() - 1) {
         costAdj = _matrix[v.first][v.second + 1];
         pair<int, int> p = {v.first,v.second + 1};
         if (costAdj != -1) {
-            adj.push_back(new State<pair<int, int>>(p, state, costFather + costAdj));
+            adj.push_back(new State<pair<int, int>>(p, state, costFather + costAdj, costAdj));
         }
     }
     return adj;
