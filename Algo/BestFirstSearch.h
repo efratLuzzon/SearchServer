@@ -28,6 +28,7 @@ private:
     bool isAdjInClosedList(State<T>*);
     void eraseFromPriorityQueqe(int);
     State<T>* getStateFromClosed(State<T>*);
+    void cleanAll();
 public:
     BestFirstSearch() : indexPriorityAdjInVector(-1), indexClosedAdjInVector(-1){}
     virtual vector<State<T>*> search (Isearchable<T>* searchable); //abstract method
@@ -96,7 +97,6 @@ vector<State<T>*> BestFirstSearch<T>::search(Isearchable<T>* searchable) {
     State<T>* init = searchable->getInitialState();
     State<T>* goal = searchable->getgoalState();
     _vertex_queue.push(init);
-//    typename set<State<T>*>::iterator iteratorClosed;
 
     while(!_vertex_queue.empty()){
         this->numOfNodesEvaluated++;
@@ -108,6 +108,7 @@ vector<State<T>*> BestFirstSearch<T>::search(Isearchable<T>* searchable) {
 
             vector<State<T>*> result = this->traceBack(init, current_vertex);
             std::cout << "Found it " << std::endl;
+            cleanAll();
             return result;
         }
 
@@ -120,45 +121,28 @@ vector<State<T>*> BestFirstSearch<T>::search(Isearchable<T>* searchable) {
                 _vertex_queue.push(adj[j]);
            } else if(!inClosed) { //adj inst in close
                 double oldCost;
-//                if(indexPriorityAdjInVector == -1){ // adj in closed list
-//                    auto oldState = getStateFromClosed(adj[j]);
-//                    oldCost = oldState->getCost();
-//                } else { // adj in open list
                 oldCost = _vectorQ[indexPriorityAdjInVector]->getCost();
-//                }
                 if(oldCost > adj[j]->getCost()){
-//                    if(indexPriorityAdjInVector == -1){ // adj in closed list
-//                        _vertex_queue.push(adj[j]);
-//                    } else { // in OPEN
                     eraseFromPriorityQueqe(indexPriorityAdjInVector);
                     _vertex_queue.push(adj[j]);
-                    }
                 }
-            }
+           }
         }
-        vector<State<T> *> emptyVector;
-        return emptyVector;
     }
-    /*Best First Search:
-    OPEN = [initial state] // a priority queue of states to be evaluated
-    CLOSED = [] // a set of states already evaluated
-    while OPEN is not empty
-    do
-        1. n  dequeue(OPEN) // Remove the best node from OPEN
-    2. add(n,CLOSED) // so we won’t check n again
-    3. If n is the goal state,
-    backtrace path to n (through recorded parents) and return path.
-    4. Create n's successors.
-    5. For each successor s do:
-    a. If s is not in CLOSED and s is not in OPEN:
-    i. update that we came to s from n
-    ii. add(s,OPEN)
-    b. Otherwise, if this new path is better than previous one //todo and s isnt in closed
-    i. If it is not in OPEN add it to OPEN.
-            ii. Otherwise, adjust its priority in OPEN
-    done*/
+    vector<State<T> *> emptyVector;
+    cleanAll();
+    return emptyVector;
+}
 
-
-
+template<class T>
+void BestFirstSearch<T>::cleanAll() {
+    indexPriorityAdjInVector = -1;
+    indexClosedAdjInVector = -1;
+    closed.clear();
+    _vectorQ.clear();
+    while (!_vertex_queue.empty()) {
+        _vertex_queue.pop();
+    }
+}
 
 #endif //EX4_BESTFIRSTSEARCH_H
