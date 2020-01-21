@@ -35,13 +35,13 @@ int main() {
 
     //MySerialServer server;
     MyParallelServer server;
-    Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* astar = new AStar<pair<int,int>>;
+    Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* astar = new BFS<pair<int,int>>;
     //ObjectAdapterSolver oa = ObjectAdapterSolver(bfs);
     Solver<vector<vector<double>>,string> * solve = new ObjectAdapterSolver(astar);
     CacheManager<string>* fileCacheManger = new FileCacheManger();
     ClientHandler* clientHandler = new GetMatrix (solve, fileCacheManger);
 //    try{
-    server.open(5043, clientHandler);
+    server.open(5891, clientHandler);
 //    } catch( const char* e){
 //        cout<<e<<endl;
 //    }
