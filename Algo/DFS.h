@@ -42,9 +42,11 @@ vector<State<T>*> DFS<T>::search(Isearchable<T>* searchable) {
 
         vector<State<T>*> adj = searchable->getAllPossibleStates(current_vertex);
         for (int j = 0; j < adj.size(); j++) {
-            if (!(visited_vertices.find(adj[j]->getState()) != visited_vertices.end())) {
-                visited_vertices.insert(adj[j]->getState());
-                vertex_stack.push(adj[j]);
+            State<T>* neighbor = adj[j];
+            if (!(visited_vertices.find(neighbor->getState()) != visited_vertices.end())) {
+                neighbor->setCost(neighbor->getInitCost() + current_vertex->getCost());
+                visited_vertices.insert(neighbor->getState());
+                vertex_stack.push(neighbor);
             }
         }
     }

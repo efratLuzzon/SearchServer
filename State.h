@@ -15,6 +15,7 @@ class State {
 private:
     T _state;
     double _cost;
+    double trailCost;
     double _initCost;
     State<T>* _comeFrom = nullptr;
     bool _isViseted;

@@ -9,18 +9,27 @@
 string FileCacheManger::get(string key) {
     pthread_mutex_lock(&mutex);
     string solution;
-    auto findKey = numProblem.find(key); //find iterator
-    solution = *findKey;
     string line, allSolution;
-    ifstream myfile (solution);
-    if (myfile.is_open())
-    {
-        while ( myfile.good() )
-        {
-            getline (myfile,line);
-            allSolution +=line;
+    auto findKey = numProblem.find(key); //find iterator
+    if(findKey == numProblem.end()) {
+        ifstream myfile(key);
+        if (myfile.is_open()) {
+            while (myfile.good()) {
+                getline(myfile, line);
+                allSolution += line;
+            }
+            myfile.close();
         }
-        myfile.close();
+    } else {
+        solution = *findKey;
+        ifstream myfile(solution);
+        if (myfile.is_open()) {
+            while (myfile.good()) {
+                getline(myfile, line);
+                allSolution += line;
+            }
+            myfile.close();
+        }
     }
     pthread_mutex_unlock(&mutex);
     return allSolution;

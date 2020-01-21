@@ -31,28 +31,28 @@ vector<State<pair<int, int>>*> SearchableMatrix::getAllPossibleStates(State<pair
         costAdj = _matrix[v.first - 1][v.second];
         pair<int, int> p = {v.first - 1,v.second};
         if (costAdj != -1) {
-            adj.push_back(new State<pair<int, int>>(p, state, costFather + costAdj, costAdj));
+            adj.push_back(new State<pair<int, int>>(p, state, costAdj, costAdj));
         }
     }
     if(v.second > 0) {
         costAdj = _matrix[v.first][v.second - 1];
         pair<int, int> p = {v.first,v.second - 1};
         if(costAdj != -1) {
-            adj.push_back(new State<pair<int, int>>(p, state, costFather + costAdj, costAdj));
+            adj.push_back(new State<pair<int, int>>(p, state, costAdj, costAdj));
         }
     }
     if(v.first < _matrix.size() - 3) {
         costAdj = _matrix[v.first + 1][v.second];
         pair<int, int> p = {v.first + 1,v.second};
         if (costAdj != -1) {
-            adj.push_back(new State<pair<int, int>>(p, state, costFather + costAdj,costAdj));
+            adj.push_back(new State<pair<int, int>>(p, state, costAdj,costAdj));
         }
     }
     if(v.second < _matrix[0].size() - 1) {
         costAdj = _matrix[v.first][v.second + 1];
         pair<int, int> p = {v.first,v.second + 1};
         if (costAdj != -1) {
-            adj.push_back(new State<pair<int, int>>(p, state, costFather + costAdj, costAdj));
+            adj.push_back(new State<pair<int, int>>(p, state, costAdj, costAdj));
         }
     }
     return adj;

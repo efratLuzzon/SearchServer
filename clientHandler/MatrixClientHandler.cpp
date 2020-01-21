@@ -60,7 +60,8 @@ void GetMatrix::handleClient(int clientSocket) {
     //get num hash
     std::size_t str_hash =  std::hash<std::string>{}(allProblem);
     allProblem = to_string(str_hash);
-    if(_cacheManager->isExsist(allProblem)){
+    std::ifstream file(allProblem);
+    if(_cacheManager->isExsist(allProblem) || file.good()){
         solution = this->_cacheManager->get(allProblem);
         cout<<"get: "<<solution<<endl;
     } else {

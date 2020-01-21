@@ -19,6 +19,7 @@ class BestFirstSearch : public SearcherAbstract<T> {
         }
     };
 private:
+    int i = 0;
     int indexPriorityAdjInVector;
     int indexClosedAdjInVector;
     std::set<State<T>*> closed;
@@ -97,10 +98,11 @@ vector<State<T>*> BestFirstSearch<T>::search(Isearchable<T>* searchable) {
     State<T>* init = searchable->getInitialState();
     State<T>* goal = searchable->getgoalState();
     _vertex_queue.push(init);
-
     while(!_vertex_queue.empty()){
+
         this->numOfNodesEvaluated++;
         State<T>* current_vertex = _vertex_queue.top();
+
         _vertex_queue.pop();
         closed.insert(current_vertex);
 
@@ -114,17 +116,19 @@ vector<State<T>*> BestFirstSearch<T>::search(Isearchable<T>* searchable) {
 
         vector<State<T>*> adj = searchable->getAllPossibleStates(current_vertex);
         for (int j = 0; j < adj.size(); j++) {
-           double currentPath = current_vertex->getCost() + adj[j]->getCost();
-           bool inClosed = isAdjInClosedList(adj[j]);
-           bool inPriority = InPriorityQuque(adj[j]);
-           if(!inClosed && !inPriority) {  // adj is not in CLOSED and s is not in OPEN:
-                _vertex_queue.push(adj[j]);
+            State<T>* neighbor = adj[j];
+            neighbor->setCost(neighbor->getInitCost() + current_vertex->getCost());
+           //double currentPath = current_vertex->getCost() + adj[j]->getCost();
+            bool inClosed = isAdjInClosedList(neighbor);
+            bool inPriority = InPriorityQuque(neighbor);
+            if(!inClosed && !inPriority) {  // adj is not in CLOSED and s is not in OPEN:
+                _vertex_queue.push(neighbor);
            } else if(!inClosed) { //adj inst in close
                 double oldCost;
                 oldCost = _vectorQ[indexPriorityAdjInVector]->getCost();
-                if(oldCost > adj[j]->getCost()){
+                if(oldCost > neighbor->getCost()){
                     eraseFromPriorityQueqe(indexPriorityAdjInVector);
-                    _vertex_queue.push(adj[j]);
+                    _vertex_queue.push(neighbor);
                 }
            }
         }
