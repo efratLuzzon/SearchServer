@@ -57,6 +57,7 @@ void GetMatrix::handleClient(int clientSocket) {
         allProblem +=";";
     }
     allProblem +=";";
+
     //get num hash
     std::size_t str_hash =  std::hash<std::string>{}(allProblem);
     allProblem = to_string(str_hash);
