@@ -25,6 +25,7 @@ class AStar : public SearcherAbstract<T>{
 public:
     AStar();
     virtual vector<State<T>*> search (Isearchable<T>* searchable); //abstract method
+    string getName();
     bool ExistInClosed(State<T>* vertex);
     bool ExistInOpen(State<T> *vertex);
     double getHeuristicVal(State<pair<int,int>>* state, State<pair<int,int>>* init);
@@ -124,6 +125,11 @@ void AStar<T>::cleanAll() {
     while (!open.empty()) {
         open.pop();
     }
+}
+
+template<class T>
+string AStar<T>::getName() {
+    return "AStar";
 }
 
 

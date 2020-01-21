@@ -13,6 +13,7 @@ protected:
     vector<State<T>*> traceBack(State<T>* init, State<T>* goal);
 public:
     virtual int getNumOfNodesEvaluated();
+    //virtual string getName();
     virtual ~SearcherAbstract(){}
 };
 template <class T>

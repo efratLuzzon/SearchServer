@@ -17,6 +17,7 @@ class BFS : public SearcherAbstract<T>{
 public:
     BFS(){}
     virtual vector<State<T>*> search (Isearchable<T>* searchable); //abstract method
+    string getName();
 };
 template <class T>
 vector<State<T>*> BFS<T>::search(Isearchable<T>* searchable) {
@@ -52,6 +53,11 @@ vector<State<T>*> BFS<T>::search(Isearchable<T>* searchable) {
     }
     vector<State<T> *> emptyVector;
     return emptyVector;
+}
+
+template<class T>
+string BFS<T>::getName() {
+    return "BFS";
 }
 
 

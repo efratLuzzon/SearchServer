@@ -34,3 +34,7 @@ string ObjectAdapterSolver::solve(vector<vector<double>> matrix) {
 
     return solutionInString;
 }
+
+/*string ObjectAdapterSolver::getName() {
+    return this->_searcher->getName();
+}*/

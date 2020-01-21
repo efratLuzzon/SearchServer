@@ -33,6 +33,7 @@ private:
 public:
     BestFirstSearch() : indexPriorityAdjInVector(-1), indexClosedAdjInVector(-1){}
     virtual vector<State<T>*> search (Isearchable<T>* searchable); //abstract method
+    string getName();
 //    ~BestFirstSearch();
 };
 template <class T>
@@ -147,6 +148,11 @@ void BestFirstSearch<T>::cleanAll() {
     while (!_vertex_queue.empty()) {
         _vertex_queue.pop();
     }
+}
+
+template<class T>
+string BestFirstSearch<T>::getName() {
+    return "BestFirstSearch";
 }
 
 #endif //EX4_BESTFIRSTSEARCH_H

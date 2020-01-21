@@ -17,6 +17,7 @@ class DFS : public SearcherAbstract<T>{
 public:
     DFS(){}
     virtual vector<State<T>*> search (Isearchable<T>* searchable); //abstract method
+    string getName();
 };
 template <class T>
 vector<State<T>*> DFS<T>::search(Isearchable<T>* searchable) {
@@ -52,6 +53,11 @@ vector<State<T>*> DFS<T>::search(Isearchable<T>* searchable) {
     }
     vector<State<T> *> emptyVector;
     return emptyVector;
+}
+
+template<class T>
+string DFS<T>::getName() {
+    return "DFS";
 }
 
 
