@@ -31,17 +31,17 @@ int main() {
 //    cout<< str4<< std::hash<std::string>{}(str4)<<endl;
 //    cout<< str5<< std::hash<std::string>{}(str5)<<endl;
 
-
+//gggggg
 
     //MySerialServer server;
     MyParallelServer server;
-    Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* astar = new BFS<pair<int,int>>;
+    Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* astar = new AStar<pair<int,int>>;
     //ObjectAdapterSolver oa = ObjectAdapterSolver(bfs);
     Solver<vector<vector<double>>,string> * solve = new ObjectAdapterSolver(astar);
     CacheManager<string>* fileCacheManger = new FileCacheManger();
     ClientHandler* clientHandler = new GetMatrix (solve, fileCacheManger);
 //    try{
-    server.open(5882, clientHandler);
+    server.open(5832, clientHandler);
 //    } catch( const char* e){
 //        cout<<e<<endl;
 //    }

@@ -51,6 +51,7 @@ vector<State<T>*> DFS<T>::search(Isearchable<T>* searchable) {
             }
         }
     }
+    //if there is no path return empty vector
     vector<State<T> *> emptyVector;
     return emptyVector;
 }

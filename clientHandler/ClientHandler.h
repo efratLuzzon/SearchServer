@@ -15,9 +15,7 @@
 #include <list>
 #include <limits>
 #include "../SerachAlgo/SearchableMatrix.h"
-/*
- *
- * */
+
 class ClientHandler {
 public:
 

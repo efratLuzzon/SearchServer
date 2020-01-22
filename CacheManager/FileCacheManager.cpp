@@ -45,11 +45,8 @@ void FileCacheManger::insert(string key, string obj) {
         exit(1);
     }
     size_t len = obj.size();
-//    data.write(len, sizeof(size_t));
     data.write(obj.c_str(), len);
     data.close();
-//    data.write((char*)&obj,sizeof(obj) +1);
-//    data.close();
     numProblem.insert(key);
     pthread_mutex_unlock(&mutex);
 }

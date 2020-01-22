@@ -14,13 +14,6 @@
 
 using namespace std;
 
-
-/*
- * Interface of CacheManger.
- * key - the problem
- * object - the solution
- * EACH OBJECT MUST HAVE CLASSNAME!!
- * */
 template <class Object> class CacheManager {
 protected:
     mutable pthread_mutex_t mutex;

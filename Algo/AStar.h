@@ -6,14 +6,15 @@
 #define EX4_ASTAR_H
 #include "../SerachAlgo/SearcherPriority.h"
 #include "../MyStruct/MyQueqe.h"
-#include <iostream>
 #include "../State.h"
 #include <set>
 #include <unordered_map>
+#include <iostream>
 
 using namespace std;
 template <class T>
 class AStar : public SearcherAbstract<T>{
+    //compare func to priority queue
     class Compare {
     public:
         bool operator()(State<T>* left, State<T>* right) {
@@ -21,21 +22,15 @@ class AStar : public SearcherAbstract<T>{
         }
     };
 public:
-    AStar();
+    AStar(){};
     virtual vector<State<T>*> search (Isearchable<T>* searchable); //abstract method
-    string getName();
     bool ExistInClosed(State<T>* vertex, vector<State<T>*>);
     bool ExistInOpen(State<T> *vertex, priority_queue<State<T>*, vector<State<T>*>, Compare> open);
     double getHeuristicVal(State<pair<int,int>>* state, State<pair<int,int>>* init);
     void updatePriority(priority_queue<State<T>*, vector<State<T>*>, Compare> open);
-    static double getHeuristicVal (State<T>*);
-    static unordered_map<State<T>*, double>* heuristicVlaue;
-    void cleanAll();
+    string getName();
 };
 
-template<class T>
-AStar<T>::AStar() {
-}
 template <class T>
 vector<State<T>*> AStar<T>::search(Isearchable<T>* searchable) {
     this->numOfNodesEvaluated = 0;
@@ -49,7 +44,6 @@ vector<State<T>*> AStar<T>::search(Isearchable<T>* searchable) {
         this->numOfNodesEvaluated++;
         if ((*cur_vertex).Equals(searchable->getgoalState())) {
             vector<State<T>*> result = this->traceBack(searchable->getInitialState(), cur_vertex);
-            cleanAll();
             return result;
         }
         closed.push_back(cur_vertex);
@@ -60,11 +54,9 @@ vector<State<T>*> AStar<T>::search(Isearchable<T>* searchable) {
             if (!ExistInOpen(neighbor, open) && !ExistInClosed(neighbor,closed)) {
                 neighbor->setComeFrom(cur_vertex);
                 neighbor->setCost(newCost);
-                //updateTrailCost(neighbor, getTrialCost(cur_vertex));
                 neighbor->setHeuristicVlaue(newCost + getHeuristicVal(neighbor, searchable->getInitialState()));
                 open.push(neighbor);
                 continue;
-                //neighbor is either in open or closed and - can improve path
             } else if (ExistInClosed(neighbor, closed)){
                 continue;
             } else if (cur_vertex->getCost() + neighbor->getInitCost() < neighbor->getCost()) {
@@ -75,8 +67,8 @@ vector<State<T>*> AStar<T>::search(Isearchable<T>* searchable) {
             }
         }
     }
+    //if there is no path return empty vector
     vector<State<T> *> emptyVector;
-    cleanAll();
     return emptyVector;
 }
 template <class T>
@@ -118,13 +110,6 @@ void AStar<T>::updatePriority(priority_queue<State<T>*, vector<State<T>*>, Compa
         open.push(temp.top());
         temp.pop();
     }
-}
-template<class T>
-void AStar<T>::cleanAll() {
-    //closed.clear();
-    //while (!open.empty()) {
-      //  open.pop();
-    //}
 }
 
 template<class T>

@@ -19,24 +19,15 @@ class BestFirstSearch : public SearcherAbstract<T> {
         }
     };
 private:
-    bool InPriorityQuque(int& indexPriorityAdjInVector, State<T>*, vector<State<T>*>* _vectorQ, priority_queue<State<T>*, vector<State<T>*>,Compare>* _vertex_queue);
+    bool InPriorityQuque(int& indexPriorityAdjInVector, State<T>*, vector<State<T>*>* _vectorQ,
+                            priority_queue<State<T>*, vector<State<T>*>,Compare>* _vertex_queue);
     bool isAdjInClosedList(int& indexClosedAdjInVector,State<T>*, set<State<T>*>& closed);
     void eraseFromPriorityQueqe(int, vector<State<T>*>* _vectorQ, priority_queue<State<T>*, vector<State<T>*>,Compare>*);
-    State<T>* getStateFromClosed(State<T>*, set<State<T>*>& closed);
 
 public:
     BestFirstSearch(){}
     virtual vector<State<T>*> search (Isearchable<T>* searchable); //abstract method
-//    ~BestFirstSearch();
 };
-template <class T>
-State<T>* BestFirstSearch<T>::getStateFromClosed(State<T>* newState, set<State<T>*>& closed) {
-    for(State<T>* s: closed){
-        if(s->Equals(newState)){
-            return s;
-        }
-    }
-}
 template <class T>
 void BestFirstSearch<T>::eraseFromPriorityQueqe(int index, vector<State<T>*>* _vectorQ, priority_queue<State<T>*, vector<State<T>*>,Compare>* _vertex_queue) {
         _vectorQ->clear();
