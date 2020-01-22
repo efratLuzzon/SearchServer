@@ -41,7 +41,7 @@ int main() {
     CacheManager<string>* fileCacheManger = new FileCacheManger();
     ClientHandler* clientHandler = new GetMatrix (solve, fileCacheManger);
 //    try{
-    server.open(5892, clientHandler);
+    server.open(5882, clientHandler);
 //    } catch( const char* e){
 //        cout<<e<<endl;
 //    }

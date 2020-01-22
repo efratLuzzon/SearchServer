@@ -47,7 +47,7 @@ void MySerialServer::startThreadOPeration() {
 
     while (!side_server::stop) {
         struct timeval tv;
-        tv.tv_sec = 30;
+        tv.tv_sec = 120;
         setsockopt(this->socketfd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
 
         // accepting a client

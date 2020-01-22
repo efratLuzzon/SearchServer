@@ -140,10 +140,10 @@ void MyParallelServer::start() {
     timeval timeout;
     int newSocket;
     while (!this->toStop) {
-        newSocket = accept(sockfd, (struct sockaddr *) &address, (socklen_t *) &addrlen);
-        timeout.tv_sec = 10;
+        timeout.tv_sec = 120;
         timeout.tv_usec = 0;
         setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *) &timeout, sizeof(timeout));
+        newSocket = accept(sockfd, (struct sockaddr *) &address, (socklen_t *) &addrlen);
         if (newSocket < 0) {
             if (errno == EWOULDBLOCK || errno == EAGAIN) {
                 cout << "Timeout" << endl;
