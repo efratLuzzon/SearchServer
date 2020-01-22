@@ -24,7 +24,7 @@ void GetMatrix::handleClient(int clientSocket) {
             cerr << "error in read line from clinet" << endl;
         }
         problem = buf;
-        for(int i = 0; i < problem.length(); i++) {
+        for(int i = 0; (unsigned int) i < problem.length(); i++) {
             if (problem[i] == 'e') {
                 endRead = true;
                 break;
@@ -50,8 +50,8 @@ void GetMatrix::handleClient(int clientSocket) {
             }
         }
     }
-    for(int i = 0; i < linesMatrix.size(); i++){
-        for(int j = 0; j < linesMatrix[i].size(); j++){
+    for(int i = 0; (unsigned int) i < linesMatrix.size(); i++){
+        for(int j = 0; (unsigned int) j < linesMatrix[i].size(); j++){
             allProblem +=to_string(linesMatrix[i][j]) + ",";
         }
         allProblem +=";";
@@ -64,20 +64,17 @@ void GetMatrix::handleClient(int clientSocket) {
     std::ifstream file(allProblem);
     if(_cacheManager->isExsist(allProblem) || file.good()){
         solution = this->_cacheManager->get(allProblem);
-        cout<<"get: "<<solution<<endl;
     } else {
         solution = _solver->solve(linesMatrix);
         if(solution == ""){
             solution = "no solution";
         }
         this->_cacheManager->insert(allProblem, solution);
-        cout<<"solve: "<<solution<<endl;
     }
     int isSend = write(clientSocket, solution.c_str(),solution.length());
     if(isSend == -1){
         std::cout << "Error sending message" << std::endl;
     }
-    cout<<"done"<<endl;
     oneLineMatrix.clear();
     linesMatrix.clear();
 }

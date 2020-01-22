@@ -9,6 +9,7 @@
 template <class T>
 class SearcherAbstract : public Isearcher<T , vector<State<T>*>>{
 protected:
+    mutable pthread_mutex_t mutex;
     int numOfNodesEvaluated = 0;
     vector<State<T>*> traceBack(State<T>* init, State<T>* goal);
 public:
@@ -18,8 +19,6 @@ public:
 };
 template <class T>
 vector<State<T>*> SearcherAbstract<T>::traceBack(State<T> *init, State<T> *goal) {
-    cout<<"cost goal"<<goal->getCost()<<endl;
-    cout<<this->numOfNodesEvaluated<<endl;
     vector<State<T>*> prevState;
     vector<State<T>*> path;
     prevState.push_back(goal);

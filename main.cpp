@@ -13,38 +13,39 @@
 #include "Algo/AStar.h"
 using namespace std;
 
+namespace boot {
+    class Main {
+    public:
+        int main(int argc, char *argv[]) {
+            return 0;
+        }
+    };
+}
 
+int main(int argc, char **argv) {
+    boot::Main main1;
+    main1.main(argc, argv);
+    if(argc > 1){
+        try {
+            string sPort = argv[1];
+            int port = stoi(sPort);
+            MyParallelServer server;
+            Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* astar = new BestFirstSearch<pair<int,int>>;
+            //ObjectAdapterSolver oa = ObjectAdapterSolver(bfs);
+            Solver<vector<vector<double>>,string> * solve = new ObjectAdapterSolver(astar);
+            CacheManager<string>* fileCacheManger = new FileCacheManger();
+            ClientHandler* clientHandler = new GetMatrix (solve, fileCacheManger);
+            try{
+                server.open(port, clientHandler);
+            } catch( const char* e){
+                cout<<e<<endl;
+            }
+        } catch (const char* e) {
+            cout<<e<<endl;
+        }
+    } else {
+        cout<<"error - no num port"<<endl;
+    }
 
-int main() {
-
-    std::string str1 = "efrat";
-    std::string str2 = "luzzon";
-    std::string str3 = "avital";
-    std::string str4 = "luzzon";
-    std::string str5 = "avital";
-
-    std::size_t str_hash = std::hash<std::string>{}(str1);
-    string a = to_string(str_hash);
-    cout<< str1<< std::hash<std::string>{}(str1)<<endl;
-    cout<< a<< endl;
-//    cout<< str3<< std::hash<std::string>{}(str3)<<endl;
-//    cout<< str4<< std::hash<std::string>{}(str4)<<endl;
-//    cout<< str5<< std::hash<std::string>{}(str5)<<endl;
-
-//gggggg
-
-    //MySerialServer server;
-    MyParallelServer server;
-    Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* astar = new AStar<pair<int,int>>;
-    //ObjectAdapterSolver oa = ObjectAdapterSolver(bfs);
-    Solver<vector<vector<double>>,string> * solve = new ObjectAdapterSolver(astar);
-    CacheManager<string>* fileCacheManger = new FileCacheManger();
-    ClientHandler* clientHandler = new GetMatrix (solve, fileCacheManger);
-//    try{
-    server.open(5832, clientHandler);
-//    } catch( const char* e){
-//        cout<<e<<endl;
-//    }
-    std::cout << "Hello, World!" << std::endl;
     return 0;
 }

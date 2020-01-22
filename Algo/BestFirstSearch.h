@@ -67,7 +67,7 @@ bool BestFirstSearch<T>::InPriorityQuque(int& indexPriorityAdjInVector, State<T>
         _vectorQ->push_back(state);
         _vertex_queue->pop();
     }
-    for(int i = 0; i < _vectorQ->size(); i++){
+    for(int i = 0; (unsigned int)i < _vectorQ->size(); i++){
         if((*_vectorQ)[i]->Equals(stateCompare)){
             isExists = true;
             indexPriorityAdjInVector = i;
@@ -99,15 +99,13 @@ vector<State<T>*> BestFirstSearch<T>::search(Isearchable<T>* searchable) {
 
         if ((*goal).Equals(current_vertex)) {
             vector<State<T>*> result = this->traceBack(init, current_vertex);
-            std::cout << "Found it " << std::endl;
             return result;
         }
 
         vector<State<T>*> adj = searchable->getAllPossibleStates(current_vertex);
-        for (int j = 0; j < adj.size(); j++) {
+        for (int j = 0; (unsigned int)j < adj.size(); j++) {
             State<T>* neighbor = adj[j];
             neighbor->setCost(neighbor->getCost() + current_vertex->getCost());
-            double currentPath = current_vertex->getCost() + neighbor->getCost();
             bool inClosed = isAdjInClosedList(indexClosedAdjInVector,neighbor, closed);
             bool inPriority = InPriorityQuque(indexPriorityAdjInVector, neighbor, _vectorQ, _vertex_queue);
             if(!inClosed && !inPriority) {  // adj is not in CLOSED and s is not in OPEN:

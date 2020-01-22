@@ -16,10 +16,8 @@ void MyTestClientHandler::handleClient(int clientSocket) {
     problem = problem.substr(0, problem.length() - 2);
     try {
         string  solution = this->cacheManager->get(problem);
-        cout<<"get: "<<solution<<endl;
     } catch (const char* e) {
         string  solution = solver->solve(problem);
         this->cacheManager->insert(problem, solution);
-        cout<<"solve: "<<solution<<endl;
     }
 }

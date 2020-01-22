@@ -4,7 +4,6 @@
 
 #ifndef EX4_ASTAR_H
 #define EX4_ASTAR_H
-#include "../SerachAlgo/SearcherPriority.h"
 #include "../MyStruct/MyQueqe.h"
 #include "../State.h"
 #include <set>
@@ -33,7 +32,9 @@ public:
 
 template <class T>
 vector<State<T>*> AStar<T>::search(Isearchable<T>* searchable) {
+    pthread_mutex_lock(&this->mutex);
     this->numOfNodesEvaluated = 0;
+    pthread_mutex_unlock(&this->mutex);
     priority_queue<State<T>*, vector<State<T>*>, Compare> open;
     vector<State<T>*> closed;
     State<T>* cur_vertex;
@@ -41,7 +42,9 @@ vector<State<T>*> AStar<T>::search(Isearchable<T>* searchable) {
     while (!open.empty()) {
         cur_vertex = open.top();
         open.pop();
+        pthread_mutex_lock(&this->mutex);
         this->numOfNodesEvaluated++;
+        pthread_mutex_unlock(&this->mutex);
         if ((*cur_vertex).Equals(searchable->getgoalState())) {
             vector<State<T>*> result = this->traceBack(searchable->getInitialState(), cur_vertex);
             return result;

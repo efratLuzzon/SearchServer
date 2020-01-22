@@ -25,7 +25,6 @@ State<pair<int, int>>* SearchableMatrix::getgoalState() {
 vector<State<pair<int, int>>*> SearchableMatrix::getAllPossibleStates(State<pair<int, int>>* state) {
     vector<State<pair<int, int>>*> adj;
     pair<int, int> v = state->getState();
-    double costFather = state->getCost();
     double costAdj;
     if(v.first > 0) {
         costAdj = _matrix[v.first - 1][v.second];
