@@ -35,7 +35,7 @@ int main() {
 
     //MySerialServer server;
     MyParallelServer server;
-    Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* astar = new BestFirstSearch<pair<int,int>>;
+    Isearcher<pair<int,int>, vector<State<pair<int,int>>*>>* astar = new BFS<pair<int,int>>;
     //ObjectAdapterSolver oa = ObjectAdapterSolver(bfs);
     Solver<vector<vector<double>>,string> * solve = new ObjectAdapterSolver(astar);
     CacheManager<string>* fileCacheManger = new FileCacheManger();

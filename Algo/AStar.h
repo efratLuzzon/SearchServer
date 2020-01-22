@@ -20,16 +20,14 @@ class AStar : public SearcherAbstract<T>{
             return (left->getHeuristicVlaue() > right->getHeuristicVlaue());
         }
     };
-    priority_queue<State<T>*, vector<State<T>*>, Compare> open;
-    vector<State<T>*> closed;
 public:
     AStar();
     virtual vector<State<T>*> search (Isearchable<T>* searchable); //abstract method
     string getName();
-    bool ExistInClosed(State<T>* vertex);
-    bool ExistInOpen(State<T> *vertex);
+    bool ExistInClosed(State<T>* vertex, vector<State<T>*>);
+    bool ExistInOpen(State<T> *vertex, priority_queue<State<T>*, vector<State<T>*>, Compare> open);
     double getHeuristicVal(State<pair<int,int>>* state, State<pair<int,int>>* init);
-    void updatePriority();
+    void updatePriority(priority_queue<State<T>*, vector<State<T>*>, Compare> open);
     static double getHeuristicVal (State<T>*);
     static unordered_map<State<T>*, double>* heuristicVlaue;
     void cleanAll();
@@ -41,6 +39,8 @@ AStar<T>::AStar() {
 template <class T>
 vector<State<T>*> AStar<T>::search(Isearchable<T>* searchable) {
     this->numOfNodesEvaluated = 0;
+    priority_queue<State<T>*, vector<State<T>*>, Compare> open;
+    vector<State<T>*> closed;
     State<T>* cur_vertex;
     open.push(searchable->getInitialState());
     while (!open.empty()) {
@@ -57,7 +57,7 @@ vector<State<T>*> AStar<T>::search(Isearchable<T>* searchable) {
         for (int i = 0; i < successors.size(); ++i) {
             State<T>* neighbor = successors[i];
             double newCost = cur_vertex->getCost() + neighbor->getInitCost();
-            if (!ExistInOpen(neighbor) && !ExistInClosed(neighbor)) {
+            if (!ExistInOpen(neighbor, open) && !ExistInClosed(neighbor,closed)) {
                 neighbor->setComeFrom(cur_vertex);
                 neighbor->setCost(newCost);
                 //updateTrailCost(neighbor, getTrialCost(cur_vertex));
@@ -65,13 +65,13 @@ vector<State<T>*> AStar<T>::search(Isearchable<T>* searchable) {
                 open.push(neighbor);
                 continue;
                 //neighbor is either in open or closed and - can improve path
-            } else if (ExistInClosed(neighbor)){
+            } else if (ExistInClosed(neighbor, closed)){
                 continue;
             } else if (cur_vertex->getCost() + neighbor->getInitCost() < neighbor->getCost()) {
                 neighbor->setComeFrom(cur_vertex);
                 neighbor->setCost(newCost);
                 neighbor->setHeuristicVlaue(newCost + getHeuristicVal(neighbor, searchable->getInitialState()));
-                updatePriority();
+                updatePriority(open);
             }
         }
     }
@@ -80,7 +80,7 @@ vector<State<T>*> AStar<T>::search(Isearchable<T>* searchable) {
     return emptyVector;
 }
 template <class T>
-bool AStar<T>::ExistInOpen(State<T>* vertex) {
+bool AStar<T>::ExistInOpen(State<T>* vertex, priority_queue<State<T>*, vector<State<T>*>, Compare> open) {
     priority_queue<State<T>*, vector<State<T>*>, Compare> temp = open;
     while (!temp.empty()) {
         //found state in priority/-queue
@@ -92,7 +92,7 @@ bool AStar<T>::ExistInOpen(State<T>* vertex) {
     return false;
 }
 template <class T>
-bool AStar<T>::ExistInClosed(State<T>* vertex) {
+bool AStar<T>::ExistInClosed(State<T>* vertex, vector<State<T>*> closed) {
     for (auto state:closed) {
         if ((*vertex).Equals(state)) {
             return true;
@@ -108,7 +108,7 @@ double AStar<T>::getHeuristicVal(State<pair<int,int>>* state, State<pair<int,int
     return dx + dy;
 }
 template <class T>
-void AStar<T>::updatePriority(){
+void AStar<T>::updatePriority(priority_queue<State<T>*, vector<State<T>*>, Compare> open){
     priority_queue<State<T> *, vector<State<T> *>, Compare> temp;
     while (!open.empty()) {
         temp.push(open.top());
@@ -121,10 +121,10 @@ void AStar<T>::updatePriority(){
 }
 template<class T>
 void AStar<T>::cleanAll() {
-    closed.clear();
-    while (!open.empty()) {
-        open.pop();
-    }
+    //closed.clear();
+    //while (!open.empty()) {
+      //  open.pop();
+    //}
 }
 
 template<class T>

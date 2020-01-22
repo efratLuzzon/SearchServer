@@ -78,4 +78,6 @@ void GetMatrix::handleClient(int clientSocket) {
         std::cout << "Error sending message" << std::endl;
     }
     cout<<"done"<<endl;
+    oneLineMatrix.clear();
+    linesMatrix.clear();
 }

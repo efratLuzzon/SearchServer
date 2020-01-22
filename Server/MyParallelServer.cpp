@@ -131,7 +131,6 @@ void MyParallelServer::stop() {
 void *MyParallelServer::startThreadClient(void *params) {
     auto data = (info *) params;
     data->clientHandler->handleClient(data->sock);
-    delete data;
 }
 
 void MyParallelServer::start() {
