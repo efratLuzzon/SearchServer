@@ -4,8 +4,10 @@ Search algorithms, CPP language
 
 ### General Description:
 
-In this task we were asked to deal with search algorithms. The program finds the best way to go from point to point
-in graph.
+In this task we were asked to deal with with creating connections between a server and multiple clients.
+Each client sends a problem to the server and waits for a solution.
+The program finds the best way to go from point to point in graph by search algorithms.
+We implemented the search algorithms BestFisrtSearch, A*, BFS, DFS.
 
  ### Compile and Run
 
