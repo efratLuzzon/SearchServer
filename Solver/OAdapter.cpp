@@ -12,9 +12,9 @@ string ObjectAdapterSolver::solve(vector<vector<double>> matrix) {
     pair<int,int> prevPair;
     pair<int,int> currPair;
     string solutionInString = "";
-    double cost;
+    int cost;
     for(int i = 1; (unsigned int)i< solution.size(); i++){
-        cost  = solution[i]->getCost();
+        cost  = int (solution[i]->getCost());
         prevPair = solution[i - 1]->getState();
         currPair = solution[i]->getState();
         if(prevPair.first < currPair.first) {//RIGHT

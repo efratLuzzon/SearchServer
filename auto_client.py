@@ -4,11 +4,11 @@ import argparse
 from threading import Thread, Event, Lock
 import time
 
-DEFAULT_FILE_NAME = 'Matrix10.txt'
+DEFAULT_FILE_NAME = 'matrix_test.txt'
 DEFAULT_TARGET_IP = 'localhost'
-DEFAULT_TARGET_PORT = 5892
+DEFAULT_TARGET_PORT = 5832
 DEFAULT_MAX_BACKLOG_SIZE = 5
-DEFAULT_BUFFER_SIZE = 1024
+DEFAULT_BUFFER_SIZE = 2048
 DEFAULT_SLEEP_TIME = 0.1
 
 logging.getLogger().setLevel(logging.INFO)
