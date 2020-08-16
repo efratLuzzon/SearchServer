@@ -1,4 +1,4 @@
-## Advanced Programming1 HW4
+## Advanced Programming
 
 Search algorithms, CPP language
 
